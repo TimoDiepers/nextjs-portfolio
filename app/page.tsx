@@ -35,6 +35,8 @@ type FeaturedSectionProps = {
   accentClass: string;
 };
 
+const MotionLink = motion.create('a');
+
 const FeaturedSection: React.FC<FeaturedSectionProps> = ({
   id,
   title,
@@ -63,13 +65,17 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({
             </p>
           </div>
         </motion.div>
-        <a
+        <MotionLink
           href={seeAllHref}
+          initial={{ opacity: 0, x: 16 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
           className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           View all
           <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
-        </a>
+        </MotionLink>
       </div>
       <Carousel
         opts={{ align: 'start', containScroll: 'trimSnaps' }}
