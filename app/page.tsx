@@ -35,7 +35,8 @@ type FeaturedSectionProps = {
   accentClass: string;
 };
 
-const MotionLink = motion.create('a');
+const MotionHeaderShell = motion.create('div');
+const MotionLinkShell = motion.create('div');
 
 const FeaturedSection: React.FC<FeaturedSectionProps> = ({
   id,
@@ -48,7 +49,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({
   return (
     <section id={id} className="space-y-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <motion.div
+        <MotionHeaderShell
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.6 }}
@@ -64,18 +65,22 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({
               {description}
             </p>
           </div>
-        </motion.div>
-        <MotionLink
-          href={seeAllHref}
-          initial={{ opacity: 0, x: 16 }}
+        </MotionHeaderShell>
+        <MotionLinkShell
+          initial={false}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          className="inline-flex translate-x-4 opacity-0"
         >
-          View all
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
-        </MotionLink>
+          <a
+            href={seeAllHref}
+            className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            View all
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
+          </a>
+        </MotionLinkShell>
       </div>
       <Carousel
         opts={{ align: 'start', containScroll: 'trimSnaps' }}
