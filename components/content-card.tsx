@@ -23,7 +23,7 @@ const ContentCard = ({ item, delay = 0 }: ContentCardProps) => {
         y: 0,
         transition: { duration: 0.35, ease: 'easeOut', delay },
       }}
-      viewport={{ once: true, amount: 0.6 }}
+      viewport={{ once: true, amount: 0.35 }}
       className="h-full opacity-0 will-change-transform"
     >
       <Card className="group relative flex h-full flex-col rounded-3xl border border-border/60 bg-background/85 shadow-lg backdrop-blur-xl transition-colors transition-transform duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-[0_8px_8px_rgba(0,84,159,0.1)]">

@@ -1,16 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import {
-  Fingerprint,
-  Github,
-  Linkedin,
-  Sun,
-  Moon,
-  ArrowUpRight,
-} from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import Hero from '@/components/hero';
 import ContentCard from '@/components/content-card';
 import type { ContentItem } from '@/lib/content';
 import {
@@ -37,23 +30,42 @@ type FeaturedSectionProps = {
 
 const MotionHeaderShell = motion.create('div');
 const MotionLinkShell = motion.create('div');
+const MotionSection = motion.create('section');
 
-const FeaturedSection: React.FC<FeaturedSectionProps> = ({
+const sectionVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: .35, ease: 'easeOut', delay },
+  }),
+};
+
+const CARD_STAGGER = 0.2;
+const CARD_INITIAL_OFFSET = 0;
+
+const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay: number }> = ({
   id,
   title,
   description,
   items,
   seeAllHref,
   accentClass,
+  isReady,
+  delay,
 }) => {
   return (
-    <section id={id} className="space-y-5">
+    <MotionSection
+      id={id}
+      className="space-y-5"
+      variants={sectionVariants}
+      initial="hidden"
+      animate={isReady ? 'visible' : 'hidden'}
+      custom={delay}
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <MotionHeaderShell
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.45, ease: 'easeOut' }}
+          animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: -16 }}
           className="flex items-center gap-3 sm:gap-4"
         >
           <span className={`inline-flex h-10 w-1.5 rounded-full ${accentClass}`} />
@@ -67,10 +79,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({
           </div>
         </MotionHeaderShell>
         <MotionLinkShell
-          initial={false}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+          animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: -16 }}
           className="inline-flex translate-x-4 opacity-0"
         >
           <a
@@ -90,24 +99,39 @@ const FeaturedSection: React.FC<FeaturedSectionProps> = ({
           viewportClassName="px-6 sm:px-2"
           className="ml-0 gap-4 py-4"
         >
-          {items.map((item, index) => (
-            <CarouselItem
-              key={item.id}
-              className="basis-full pl-0 sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
-            >
-              <ContentCard item={item} delay={index * 0.075} />
-            </CarouselItem>
-          ))}
+          {items.map((item, index) => {
+            const cardDelay = isReady
+              ? delay + CARD_INITIAL_OFFSET + index * CARD_STAGGER
+              : 0;
+
+            return (
+              <CarouselItem
+                key={item.id}
+                className="basis-full pl-0 sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
+              >
+                <ContentCard item={item} delay={cardDelay} />
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
         <CarouselPrevious className="hidden -left-8 md:inline-flex" />
         <CarouselNext className="hidden -right-8 md:inline-flex" />
       </Carousel>
-    </section>
+    </MotionSection>
   );
 };
 
 const PersonalSite = () => {
   const [isDark, setIsDark] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
+
+  const handleExploreClick = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const target = document.getElementById('featured-publications');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -125,89 +149,12 @@ const PersonalSite = () => {
         className="pointer-events-none absolute inset-0 -z-10 opacity-90 transition-opacity duration-300 "
       />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-16 pt-10 sm:px-6 lg:px-8">
-        <header className="space-y-6">
-          <div className="flex flex-wrap items-start justify-between gap-6 sm:items-center">
-            <div className="flex items-center gap-5">
-              <Image
-                src="/profile_pic.jpeg"
-                alt="Profile"
-                width={160}
-                height={160}
-                priority
-                className="h-32 w-32 rounded-full border border-border/60 object-cover shadow-lg sm:h-32 sm:w-32"
-              />
-              <div>
-                <h1 className="text-3xl font-semibold tracking-tight">
-                  Timo Diepers
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Researcher · Software Developer
-                </p>
-                <div className="mt-3 flex items-center gap-2 text-muted-foreground">
-                  <a
-                    href="https://orcid.org/0000-0000-0000-0000"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-primary shadow-[0_4px_12px_rgba(0,84,159,0.08)] transition-transform duration-300 hover:-translate-y-0.5 hover:bg-primary/20 hover:shadow-[0_12px_26px_rgba(0,84,159,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                    aria-label="ORCID"
-                  >
-                    <Fingerprint className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="https://github.com/username"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-primary shadow-[0_4px_12px_rgba(0,84,159,0.08)] transition-transform duration-300 hover:-translate-y-0.5 hover:bg-primary/20 hover:shadow-[0_12px_26px_rgba(0,84,159,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                    aria-label="GitHub"
-                  >
-                    <Github className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/username"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-primary shadow-[0_4px_12px_rgba(0,84,159,0.08)] transition-transform duration-300 hover:-translate-y-0.5 hover:bg-primary/20 hover:shadow-[0_12px_26px_rgba(0,84,159,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                    aria-label="LinkedIn"
-                  >
-                    <Linkedin className="h-4 w-4" />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsDark((prev) => !prev)}
-              className="inline-flex shrink-0 items-center justify-center rounded-full border border-border/60 bg-background/70 p-2 text-muted-foreground shadow-[0_4px_14px_rgba(18,38,63,0.12)] transition-transform duration-300 hover:-translate-y-0.5 hover:border-primary/55 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
-              aria-label="Toggle theme"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {isDark ? (
-                  <motion.span
-                    key="sun"
-                    initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                  >
-                    <Sun className="h-5 w-5" />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="moon"
-                    initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                  >
-                    <Moon className="h-5 w-5" />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
-          <p className="text-balance text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Focused on crafting reliable AI-driven experiences and tools that empower researchers, product teams, and creative communities. Currently building human-centered infrastructure for multi-modal systems.
-          </p>
-        </header>
+        <Hero
+          isDark={isDark}
+          onToggleTheme={() => setIsDark((prev) => !prev)}
+          onReady={() => setHeroReady(true)}
+          onExploreClick={handleExploreClick}
+        />
 
         <main className="space-y-14 pb-8">
           <FeaturedSection
@@ -217,6 +164,8 @@ const PersonalSite = () => {
             items={publications}
             seeAllHref="/publications"
             accentClass="bg-chart-1/60"
+            isReady={heroReady}
+            delay={heroReady ? 0.05 : 0}
           />
           <FeaturedSection
             id="featured-presentations"
@@ -225,6 +174,8 @@ const PersonalSite = () => {
             items={presentations}
             seeAllHref="/presentations"
             accentClass="bg-chart-3/60"
+            isReady={heroReady}
+            delay={heroReady ? 0.15 : 0}
           />
           <FeaturedSection
             id="featured-coding"
@@ -233,6 +184,8 @@ const PersonalSite = () => {
             items={codingProjects}
             seeAllHref="/coding"
             accentClass="bg-chart-5/60"
+            isReady={heroReady}
+            delay={heroReady ? 0.25 : 0}
           />
         </main>
       </div>
