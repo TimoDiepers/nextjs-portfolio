@@ -75,7 +75,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut', delay: 0.15 }}
           onClick={onToggleTheme}
-          className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/55 bg-background/85 text-muted-foreground shadow-[0_4px_8px_rgba(12,23,35,0.075)] transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+          className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/55 bg-background/85 text-muted-foreground shadow-[0_4px_6px_rgba(12,23,35,0.075)] transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
           aria-label="Toggle theme"
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -142,7 +142,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 z-2 items-center justify-center rounded-full border border-border/50 bg-background/80 text-primary shadow-[0_4px_8px_rgba(0,84,159,0.2)] transition-transform duration-300 hover:-translate-y-1 hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="inline-flex h-10 w-10 z-2 items-center justify-center rounded-full border border-border/50 bg-background/80 text-primary transition-transform duration-300 shadow-[0_4px_6px_rgba(12,23,35,0.075)] hover:-translate-y-0.5 transition-colors duration-300 hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   aria-label={label}
                 >
                   <Icon className="h-4 w-4" />
@@ -161,19 +161,19 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: 'easeOut', delay: 0.18 }}
-              className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+              className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
             >
               Timo Diepers
               <br />
-                <span className="text-4xl font-mono">&gt; </span>
+                <span className="text-3xl sm:text-4xl lg:text-4xl font-mono">&gt; </span>
               <TypingText
-                text={["researcher", "programmer", "doctoral candidate"]}
+                text={["researcher", "programmer", "engineer"]}
                 // text={["sustainability", "optimization", "lca", "energy systems", "time-dynamics"]}
                 typingSpeed={85}
                 pauseDuration={1500}
                 showCursor={true}
                 cursorCharacter="_"
-                className="text-4xl font-mono" //font-mono
+                className="text-3xl sm:text-4xl lg:text-4xl font-mono" //font-mono
                 textColors={['#006fd0ff', '#8b5cf6', '#06b6d4']}
                 variableSpeed={{ min: 50, max: 120 }}
               />
