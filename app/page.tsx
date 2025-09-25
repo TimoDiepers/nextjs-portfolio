@@ -41,9 +41,6 @@ const sectionVariants: Variants = {
   }),
 };
 
-const CARD_STAGGER = 0.2;
-const CARD_INITIAL_OFFSET = 0;
-
 const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay: number }> = ({
   id,
   title,
@@ -65,7 +62,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <MotionHeaderShell
-          animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: -16 }}
+          animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: 12 }}
           className="flex items-center gap-3 sm:gap-4"
         >
           <span className={`inline-flex h-10 w-1.5 rounded-full ${accentClass}`} />
@@ -79,7 +76,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           </div>
         </MotionHeaderShell>
         <MotionLinkShell
-          animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: -16 }}
+          animate={isReady ? { opacity: 1, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0}}
           className="inline-flex translate-x-4 opacity-0"
         >
           <a
@@ -99,20 +96,14 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           viewportClassName="px-6 sm:px-2"
           className="ml-0 gap-4 py-4"
         >
-          {items.map((item, index) => {
-            const cardDelay = isReady
-              ? delay + CARD_INITIAL_OFFSET + index * CARD_STAGGER
-              : 0;
-
-            return (
-              <CarouselItem
-                key={item.id}
-                className="basis-full pl-0 sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
-              >
-                <ContentCard item={item} delay={cardDelay} />
-              </CarouselItem>
-            );
-          })}
+          {items.map((item) => (
+            <CarouselItem
+              key={item.id}
+              className="basis-full pl-0 sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
+            >
+              <ContentCard item={item} />
+            </CarouselItem>
+          ))}
         </CarouselContent>
         <CarouselPrevious className="hidden -left-8 md:inline-flex" />
         <CarouselNext className="hidden -right-8 md:inline-flex" />
@@ -165,7 +156,7 @@ const PersonalSite = () => {
             seeAllHref="/publications"
             accentClass="bg-chart-1/60"
             isReady={heroReady}
-            delay={heroReady ? 0.05 : 0}
+            delay={0}
           />
           <FeaturedSection
             id="featured-presentations"
@@ -175,7 +166,7 @@ const PersonalSite = () => {
             seeAllHref="/presentations"
             accentClass="bg-chart-3/60"
             isReady={heroReady}
-            delay={heroReady ? 0.15 : 0}
+            delay={0}
           />
           <FeaturedSection
             id="featured-coding"
@@ -185,7 +176,7 @@ const PersonalSite = () => {
             seeAllHref="/coding"
             accentClass="bg-chart-5/60"
             isReady={heroReady}
-            delay={heroReady ? 0.25 : 0}
+            delay={0}
           />
         </main>
       </div>
