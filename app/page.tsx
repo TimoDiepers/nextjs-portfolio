@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import Hero from '@/components/hero';
 import ContentCard from '@/components/content-card';
 import type { ContentItem } from '@/lib/content';
@@ -32,12 +32,12 @@ const MotionHeaderShell = motion.create('div');
 const MotionLinkShell = motion.create('div');
 const MotionSection = motion.create('section');
 
-const sectionVariants = {
+const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: .35, ease: 'easeOut', delay },
+    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1], delay },
   }),
 };
 
