@@ -56,6 +56,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
         transition={{ duration: 0.55, ease: 'easeOut' }}
         className="relative overflow-hidden rounded-3xl border border-border/60 bg-background/90 p-6 shadow-[0_16px_42px_rgba(8,20,34,0.22)] backdrop-blur-xl sm:p-10"
       >
+
         {/* <MotionBackground
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-gradient-to-br from-primary/1 via-chart-1/13 to-background/15"
@@ -164,15 +165,15 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
             >
               Timo Diepers
               <br />
-              <span className="text-4xl font-bold">I'm working on </span>
+                <span className="text-4xl font-mono">&gt; </span>
               <TypingText
-                // text={["researcher", "software developer", "doctoral candidate"]}
-                text={["Sustainability", "Optimization", "LCA", "Energy Systems", "Time-dynamics"]}
+                text={["researcher", "programmer", "doctoral candidate"]}
+                // text={["sustainability", "optimization", "lca", "energy systems", "time-dynamics"]}
                 typingSpeed={85}
                 pauseDuration={1500}
                 showCursor={true}
-                cursorCharacter="|"
-                className="text-4xl font-bold " //font-mono
+                cursorCharacter="_"
+                className="text-4xl font-mono" //font-mono
                 textColors={['#006fd0ff', '#8b5cf6', '#06b6d4']}
                 variableSpeed={{ min: 50, max: 120 }}
               />

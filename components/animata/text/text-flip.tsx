@@ -30,7 +30,7 @@ export default function TextFlip() {
 
   return (
     <div className="box-content flex gap-4 text-h1 font-semibold">
-      <p className="text-foreground">Hey there, I'm Timo Diepers, a passionate</p>
+      <p className="text-foreground">Hey there, I am Timo Diepers, a passionate</p>
       <div ref={tallestRef} className="flex flex-col overflow-hidden text-blue-400">
         {words.map((word, index) => (
           <span key={index} className="animate-flip-words">
