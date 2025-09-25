@@ -75,7 +75,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut', delay: 0.15 }}
           onClick={onToggleTheme}
-          className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/55 bg-background/85 text-muted-foreground shadow-[0_4px_6px_rgba(12,23,35,0.075)] transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+          className="absolute right-5 top-5 z-30 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/55 bg-background/85 text-muted-foreground shadow-[0_4px_6px_rgba(12,23,35,0.075)] transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
           aria-label="Toggle theme"
         >
           <AnimatePresence mode="wait" initial={false}>
