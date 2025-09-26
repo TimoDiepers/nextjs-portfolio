@@ -49,7 +49,7 @@ const ContentCollection = ({
   }, [items, activeTopics]);
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 pb-20 pt-12 sm:px-6 lg:px-8">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pb-20 pt-12 sm:px-6 lg:px-8">
       <header className="space-y-6">
         <div className="flex items-center justify-between gap-3">
           <Link
