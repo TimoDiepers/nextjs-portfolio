@@ -32,6 +32,13 @@ const MotionHeaderShell = motion.create('div');
 const MotionLinkShell = motion.create('div');
 const MotionSection = motion.create('section');
 
+const CARD_STAGGER_GROUP = 3;
+const CARD_STAGGER_DELAY = 0.12;
+
+// Reset the stagger every few cards so carousel slides stay snappy.
+const getCardStaggerDelay = (index: number) =>
+  (index % CARD_STAGGER_GROUP) * CARD_STAGGER_DELAY;
+
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: (delay: number) => ({
@@ -63,9 +70,9 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <MotionHeaderShell
           animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: 12 }}
-          className="flex items-center gap-3 sm:gap-4"
+          className="flex items-center gap-3 sm:gap-6"
         >
-          <span className={`inline-flex h-10 w-1.5 rounded-full ${accentClass}`} />
+          <span className={`inline-flex pl-2 h-10 w-1.5 rounded-full ${accentClass}`} />
           <div>
             <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
               {title}
@@ -96,12 +103,12 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           viewportClassName="px-6 sm:px-2"
           className="ml-0 gap-4 py-4"
         >
-          {items.map((item) => (
+          {items.map((item, index) => (
             <CarouselItem
               key={item.id}
               className="basis-full pl-0 sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
             >
-              <ContentCard item={item} />
+              <ContentCard item={item} delay={getCardStaggerDelay(index)} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -151,7 +158,7 @@ const PersonalSite = () => {
           <FeaturedSection
             id="featured-publications"
             title="Publications"
-            description="Select research highlights that shaped my current focus on trustworthy AI and collaborative tooling."
+            description="Explore my journal papers, scientific reports and conference publications."
             items={publications}
             seeAllHref="/publications"
             accentClass="bg-chart-1/60"
@@ -161,7 +168,7 @@ const PersonalSite = () => {
           <FeaturedSection
             id="featured-presentations"
             title="Presentations"
-            description="Talks and workshops that explore how design, research, and engineering intersect in practice."
+            description="Conference talks and workshops that showcase my research and some software tools I have developed."
             items={presentations}
             seeAllHref="/presentations"
             accentClass="bg-chart-3/60"
@@ -171,7 +178,7 @@ const PersonalSite = () => {
           <FeaturedSection
             id="featured-coding"
             title="Coding Projects"
-            description="A sample of the systems and tools I build to help teams move faster with confidence."
+            description="Software packages, scripts, web applications and other tools I've worked on."
             items={codingProjects}
             seeAllHref="/coding"
             accentClass="bg-chart-5/60"

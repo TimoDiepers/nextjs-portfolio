@@ -54,7 +54,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: 'easeOut' }}
-        className="relative overflow-hidden rounded-3xl border border-border/60 bg-background/90 p-6 shadow-[0_16px_42px_rgba(8,20,34,0.22)] backdrop-blur-xl sm:p-10"
+        className="relative overflow-hidden pt-8 pb-4 sm:pt-14 sm:pb-14"
       >
 
         {/* <MotionBackground
@@ -75,7 +75,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut', delay: 0.15 }}
           onClick={onToggleTheme}
-          className="absolute right-5 top-5 z-30 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/55 bg-background/85 text-muted-foreground shadow-[0_4px_6px_rgba(12,23,35,0.075)] transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+          className="absolute right-0 top-0 z-30 inline-flex h-10 w-10 bg-card items-center justify-center rounded-full bg-background/85 text-muted-foreground transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
           aria-label="Toggle theme"
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -113,7 +113,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
             <MotionHeroFrame
               // animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
               // transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative flex items-center justify-center rounded-full border border-border/55 bg-background/90 p-2 shadow-[0_12px_24px_rgba(8,20,34,0.24)] backdrop-blur-2xl"
+              className="relative flex items-center justify-center transition-colors duration-300 rounded-full border border-border/55 bg-background/90 p-2 shadow-[0_6px_12px_rgba(8,20,34,0.14)] backdrop-blur-2xl"
             >
               <div className="relative h-40 w-40 overflow-hidden rounded-full border border-border/45 sm:h-48 sm:w-48">
                 <Image
@@ -142,7 +142,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 z-2 items-center justify-center rounded-full border border-border/50 bg-background/80 text-primary transition-transform duration-300 shadow-[0_4px_6px_rgba(12,23,35,0.075)] hover:-translate-y-0.5 transition-colors duration-300 hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="inline-flex h-10 w-10 z-2 items-center justify-center text-primary transition-transform duration-300 hover:scale-[1.1] transition-colors duration-300 hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   aria-label={label}
                 >
                   <Icon className="h-4 w-4" />
@@ -185,7 +185,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.26 }}
               className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              I design reliable, humane AI experiences that help teams explore complex ideas faster. From research pipelines to production-grade tools, I focus on clarity, collaboration, and trust.
+              I&apos;m a Research Associate at RWTH Aachen University, exploring Methods for designing Sustainable Processes & Systems using Life Cycle Assessment and Mathematical Optimization. Most of my work is open-source, so feel free to explore my Publications and Projects below.
             </MotionHeroSubcopy>
 
             {/* <MotionHeroActions

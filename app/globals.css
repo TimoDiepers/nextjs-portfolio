@@ -45,9 +45,9 @@
 
 :root {
   --radius: 0.65rem;
-  --background: #f5f8ff;
+  --background: #f5f6f7;
   --foreground: #12263f;
-  --card: rgba(255, 255, 255, 0.92);
+  --card: #ffffff;
   --card-foreground: #12263f;
   --popover: #ffffff;
   --popover-foreground: #12263f;
@@ -79,18 +79,18 @@
 }
 
 .dark {
-  --background: #0d0d18;
-  --foreground: #eaf2ff;
-  --card: rgba(10, 23, 40, 0.88);
-  --card-foreground: #eaf2ff;
+  --background: #000000;
+  --foreground: #f5f6f7;
+  --card: #12141c;
+  --card-foreground: #f5f6f7;
   --popover: #0a172c;
-  --popover-foreground: #eaf2ff;
+  --popover-foreground: #f5f6f7;
   --primary: #63b4ff;
   --primary-foreground: #041225;
   --secondary: #123256;
   --secondary-foreground: #d4e4ff;
-  --muted: #1a2f4d;
-  --muted-foreground: #90a8c8;
+  --muted: #25364f;
+  --muted-foreground: #a8b4c3;
   --accent: #3f2a52;
   --accent-foreground: #f1e7ff;
   --destructive: #ff6b6b;
