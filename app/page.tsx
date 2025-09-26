@@ -100,8 +100,12 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   const carouselViewportClass = '-mx-4 sm:-mx-6 lg:-mx-8';
   const carouselContentClass = cn(
     'ml-4 gap-4 py-4 sm:ml-6 lg:ml-8',
-    // Improved right padding logic for better card display
-    shouldPeekNextCard ? 'pr-16' : itemCount === 2 ? 'pr-8' : 'pr-0'
+    // Right padding logic for proper end spacing
+    shouldPeekNextCard 
+      ? 'pr-16'  // 3+ cards: Show peek of next card
+      : itemCount === 2 
+        ? 'pr-20 sm:pr-24 lg:pr-28'  // 2 cards: Ensure last card has proper end spacing when scrolled to end
+        : 'pr-0'  // 1 card: Full width, no extra padding needed
   );
 
   const carouselItemClass = shouldPeekNextCard
