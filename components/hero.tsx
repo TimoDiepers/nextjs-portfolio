@@ -2,22 +2,19 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   ArrowUpRight,
   Fingerprint,
   Github,
   Linkedin,
-  Moon,
-  Sun,
 } from 'lucide-react';
+import ThemeToggle from '@/components/theme-toggle';
 import TextFlip from './animata/text/text-flip';
 import AnimatedGradientText from './animata/text/animated-gradient-text';
 import TypingText from './ui/shadcn-io/typing-text';
 
 type HeroProps = {
-  isDark: boolean;
-  onToggleTheme: () => void;
   onReady?: () => void;
   onExploreClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
@@ -28,11 +25,9 @@ const MotionBlob = motion.create('div');
 const MotionHeroContent = motion.create('div');
 const MotionHeroHeading = motion.create('h1');
 const MotionHeroSubcopy = motion.create('p');
-const MotionHeroActions = motion.create('div');
 const MotionHeroIconLink = motion.create('a');
 const MotionHeroImageShell = motion.create('div');
 const MotionHeroFrame = motion.create('div');
-const MotionThemeToggle = motion.create('button');
 
 const SOCIAL_LINKS = [
   { href: 'https://orcid.org/0000-0000-0000-0000', label: 'ORCID', icon: Fingerprint },
@@ -40,7 +35,7 @@ const SOCIAL_LINKS = [
   { href: 'https://linkedin.com/in/username', label: 'LinkedIn', icon: Linkedin },
 ];
 
-const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => {
+const Hero = ({ onReady, onExploreClick }: HeroProps) => {
   React.useEffect(() => {
     const timer = window.setTimeout(() => {
       onReady?.();
@@ -70,38 +65,12 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
           />
         </MotionBackground> */}
 
-        <MotionThemeToggle
+        <ThemeToggle
           initial={{ opacity: 0, scale: 0.9, y: -6 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut', delay: 0.15 }}
-          onClick={onToggleTheme}
-          className="absolute right-0 top-0 z-30 inline-flex h-10 w-10 bg-card items-center justify-center rounded-full bg-background/85 text-muted-foreground transition-colors duration-300 hover:border-primary/35 hover:text-primary hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
-          aria-label="Toggle theme"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {isDark ? (
-              <motion.span
-                key="sun"
-                initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
-              >
-                <Sun className="h-4 w-4" />
-              </motion.span>
-            ) : (
-              <motion.span
-                key="moon"
-                initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
-              >
-                <Moon className="h-4 w-4" />
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </MotionThemeToggle>
+          className="absolute right-0 top-0 z-30"
+        />
 
         <div className="relative z-10 grid gap-8 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:items-center">
           <MotionHeroImageShell
@@ -142,7 +111,7 @@ const Hero = ({ isDark, onToggleTheme, onReady, onExploreClick }: HeroProps) => 
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 z-2 items-center justify-center text-primary transition-transform duration-300 hover:scale-[1.1] transition-colors duration-300 hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="inline-flex h-10 w-10 z-2 items-center justify-center text-primary transition-transform duration-300 hover:scale-[1.1] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   aria-label={label}
                 >
                   <Icon className="h-4 w-4" />

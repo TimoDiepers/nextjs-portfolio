@@ -11,7 +11,6 @@ const CodingPage = () => {
       intro={intro}
       items={codingProjects}
       backHref="/"
-      backLabel="Back to highlights"
     />
   );
 };

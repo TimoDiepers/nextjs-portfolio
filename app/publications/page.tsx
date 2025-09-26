@@ -11,7 +11,6 @@ const PublicationsPage = () => {
       intro={intro}
       items={publications}
       backHref="/"
-      backLabel="Back to highlights"
     />
   );
 };

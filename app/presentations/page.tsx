@@ -11,7 +11,6 @@ const PresentationsPage = () => {
       intro={intro}
       items={presentations}
       backHref="/"
-      backLabel="Back to highlights"
     />
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { motion, type Variants } from 'framer-motion';
 import Hero from '@/components/hero';
@@ -91,7 +91,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
             className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             View all
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </MotionLinkShell>
       </div>
@@ -120,7 +120,6 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
 };
 
 const PersonalSite = () => {
-  const [isDark, setIsDark] = useState(false);
   const [heroReady, setHeroReady] = useState(false);
 
   const handleExploreClick = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -131,15 +130,6 @@ const PersonalSite = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [isDark]);
-
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div
@@ -148,8 +138,6 @@ const PersonalSite = () => {
       />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-16 pt-10 sm:px-6 lg:px-8">
         <Hero
-          isDark={isDark}
-          onToggleTheme={() => setIsDark((prev) => !prev)}
           onReady={() => setHeroReady(true)}
           onExploreClick={handleExploreClick}
         />

@@ -71,7 +71,7 @@ const ContentCard = ({ item, delay = 0 }: ContentCardProps) => {
               {item.topics.map((topic) => (
                 <span
                   key={topic}
-                  className="rounded-full bg-background px-2.5 py-1 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm"
+                  className="rounded-full bg-background px-2.5 py-1 text-xs font-medium text-muted-foreground"
                 >
                   {topic}
                 </span>
