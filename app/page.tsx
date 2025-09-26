@@ -103,9 +103,9 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   );
 
   const carouselItemClass = shouldPeekNextCard
-    ? 'basis-[75vw] pl-0 sm:basis-[70vw] md:basis-[45%]'
+    ? 'basis-[70vw] pl-0 sm:basis-[65vw] md:basis-[45%]'
     : itemCount === 2
-      ? 'basis-[75vw] pl-0 sm:basis-[70vw] md:basis-[calc(50%-0.5rem)]'
+      ? 'basis-[70vw] pl-0 sm:basis-[65vw] md:basis-[calc(50%-0.5rem)]'
       : 'basis-full pl-0 sm:basis-full md:basis-full';
 
   return (
