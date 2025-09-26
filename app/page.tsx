@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { motion, type Variants } from 'framer-motion';
+import { motion, type Variants, useAnimationControls, useInView } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import Hero from '@/components/hero';
 import ContentCard from '@/components/content-card';
 import type { ContentItem } from '@/lib/content';
@@ -15,8 +16,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
 
 type FeaturedSectionProps = {
@@ -31,20 +30,31 @@ type FeaturedSectionProps = {
 const MotionHeaderShell = motion.create('div');
 const MotionLinkShell = motion.create('div');
 const MotionSection = motion.create('section');
+const MotionGrid = motion.create('div');
 
 const CARD_STAGGER_GROUP = 3;
-const CARD_STAGGER_DELAY = 0.12;
+const CARD_STAGGER_DELAY = 0.075;
+const CARD_OVERLAP_DELAY = 0.1;
 
 // Reset the stagger every few cards so carousel slides stay snappy.
 const getCardStaggerDelay = (index: number) =>
   (index % CARD_STAGGER_GROUP) * CARD_STAGGER_DELAY;
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
+const headerVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1], delay },
+    transition: { duration: 0.3, ease: 'easeOut', delay },
+  }),
+};
+
+const linkVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3, ease: 'easeOut', delay },
   }),
 };
 
@@ -58,19 +68,59 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   isReady,
   delay,
 }) => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const isSectionInView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const shouldAnimate = isReady && isSectionInView;
+  const itemCount = items.length;
+  const shouldPeekNextCard = itemCount >= 3;
+  const headerControls = useAnimationControls();
+  const linkControls = useAnimationControls();
+  const hasStartedAnimationRef = useRef(false);
+  const [cardsActive, setCardsActive] = useState(false);
+
+  useEffect(() => {
+    if (!shouldAnimate || hasStartedAnimationRef.current) {
+      return;
+    }
+
+    hasStartedAnimationRef.current = true;
+
+    void headerControls.start('visible');
+    void linkControls.start('visible');
+
+    const startDelayMs = Math.max(0, (delay + CARD_OVERLAP_DELAY) * 1000);
+    const timer = window.setTimeout(() => setCardsActive(true), startDelayMs);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [shouldAnimate, headerControls, linkControls, delay]);
+
+  const carouselViewportClass = shouldPeekNextCard ? 'px-6 sm:px-6' : 'px-6 sm:px-6';
+  const carouselContentClass = cn(
+    'ml-0 gap-4 py-4',
+    shouldPeekNextCard ? 'pr-16' : 'pr-0'
+  );
+
+  const carouselItemClass = shouldPeekNextCard
+    ? 'basis-[75vw] pl-0 sm:basis-[70vw] md:basis-[45%]'
+    : itemCount === 2
+      ? 'basis-[75vw] pl-0 sm:basis-[70vw] md:basis-[calc(50%-0.5rem)]'
+      : 'basis-full pl-0 sm:basis-full md:basis-full';
+
   return (
     <MotionSection
+      ref={sectionRef}
       id={id}
       className="space-y-5"
-      variants={sectionVariants}
-      initial="hidden"
-      animate={isReady ? 'visible' : 'hidden'}
-      custom={delay}
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <MotionHeaderShell
-          animate={isReady ? { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0, y: 12 }}
-          className="flex items-center gap-3 sm:gap-6"
+          variants={headerVariants}
+          initial="hidden"
+          animate={headerControls}
+          custom={delay}
+          className="flex items-center gap-3 sm:gap-6 opacity-0"
         >
           <span className={`inline-flex pl-2 h-10 w-1.5 rounded-full ${accentClass}`} />
           <div>
@@ -83,8 +133,11 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           </div>
         </MotionHeaderShell>
         <MotionLinkShell
-          animate={isReady ? { opacity: 1, transition: { duration: 0.35, ease: 'easeOut', delay: delay} } : { opacity: 0}}
-          className="inline-flex translate-x-4 opacity-0"
+          variants={linkVariants}
+          initial="hidden"
+          animate={linkControls}
+          custom={delay}
+          className="inline-flex opacity-0"
         >
           <a
             href={seeAllHref}
@@ -97,27 +150,44 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       </div>
       <Carousel
         opts={{ align: 'start', containScroll: 'trimSnaps' }}
-        className="relative w-full"
+        className="relative w-full lg:hidden"
       >
         <CarouselContent
-          viewportClassName="px-6 sm:px-2"
-          className="ml-0 gap-4 py-4"
+          viewportClassName={carouselViewportClass}
+          className={carouselContentClass}
         >
           {items.map((item, index) => (
             <CarouselItem
               key={item.id}
-              className="basis-full pl-0 sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
+              className={carouselItemClass}
             >
-              <ContentCard item={item} delay={getCardStaggerDelay(index)} />
+              <ContentCard
+                item={item}
+                delay={getCardStaggerDelay(index)}
+                isActive={cardsActive}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden -left-8 md:inline-flex" />
-        <CarouselNext className="hidden -right-8 md:inline-flex" />
       </Carousel>
+      <MotionGrid className="hidden w-full items-stretch gap-4 lg:flex lg:flex-nowrap">
+        {items.map((item, index) => (
+          <div key={`grid-${item.id}`} className="flex-1 min-w-0">
+            <ContentCard
+              item={item}
+              delay={getCardStaggerDelay(index)}
+              isActive={cardsActive}
+            />
+          </div>
+        ))}
+      </MotionGrid>
     </MotionSection>
   );
 };
+
+const featuredPublications = publications.filter((item) => item.featured);
+const featuredPresentations = presentations.filter((item) => item.featured);
+const featuredCodingProjects = codingProjects.filter((item) => item.featured);
 
 const PersonalSite = () => {
   const [heroReady, setHeroReady] = useState(false);
@@ -147,7 +217,7 @@ const PersonalSite = () => {
             id="featured-publications"
             title="Publications"
             description="Explore my journal papers, scientific reports and conference publications."
-            items={publications}
+            items={featuredPublications}
             seeAllHref="/publications"
             accentClass="bg-chart-1/60"
             isReady={heroReady}
@@ -157,7 +227,7 @@ const PersonalSite = () => {
             id="featured-presentations"
             title="Presentations"
             description="Conference talks and workshops that showcase my research and some software tools I have developed."
-            items={presentations}
+            items={featuredPresentations}
             seeAllHref="/presentations"
             accentClass="bg-chart-3/60"
             isReady={heroReady}
@@ -167,7 +237,7 @@ const PersonalSite = () => {
             id="featured-coding"
             title="Coding Projects"
             description="Software packages, scripts, web applications and other tools I've worked on."
-            items={codingProjects}
+            items={featuredCodingProjects}
             seeAllHref="/coding"
             accentClass="bg-chart-5/60"
             isReady={heroReady}

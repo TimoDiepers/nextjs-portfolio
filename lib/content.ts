@@ -17,15 +17,14 @@ export type ContentItem = {
 export const publications: ContentItem[] = [
   {
     id: 'generative-models-real-world',
-    title: 'Understanding Generative Models in Real-World Systems',
-    meta: 'J. Doe · A. Smith · NeurIPS 2024 · Best Paper Honorable Mention',
+    title: 'Time-explicit Life Cycle Assessment: A Flexible Framework for Coherent Consideration of Temporal Dynamics',
+    meta: 'Müller & Diepers et al · IJLCA · 2025',
     description:
-      'A deep dive into stability strategies for large generative models deployed within distributed scientific pipelines. Highlights responsible AI practices and reproducible tooling.',
-    topics: ['Generative AI', 'Distributed Systems', 'Responsible ML'],
+      'We propose a time-explicit LCA framework that captures when processes and emissions occur, enabling dynamic assessments of evolving product systems.',
+    topics: ['Journal Paper', 'Life Cycle Assessment', 'Methodology', 'Time dynamics'],
     links: [
       { label: 'Paper', href: '#' },
       { label: 'Code', href: '#' },
-      { label: 'Dataset', href: '#' },
     ],
     featured: true,
   },
@@ -54,6 +53,7 @@ export const publications: ContentItem[] = [
       { label: 'Slides', href: '#' },
       { label: 'Video', href: '#' },
     ],
+    featured: true,
   },
   {
     id: 'federated-safety-toolkit',
