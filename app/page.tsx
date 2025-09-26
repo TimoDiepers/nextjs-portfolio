@@ -96,9 +96,10 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
     };
   }, [shouldAnimate, headerControls, linkControls, delay]);
 
-  const carouselViewportClass = '';
+  // Full-bleed carousel that extends to screen edges while aligning first card with section text
+  const carouselViewportClass = '-mx-4 sm:-mx-6 lg:-mx-8';
   const carouselContentClass = cn(
-    'ml-4 gap-4 py-4 sm:ml-6',
+    'ml-4 gap-4 py-4 sm:ml-6 lg:ml-8',
     shouldPeekNextCard ? 'pr-16' : 'pr-0'
   );
 
