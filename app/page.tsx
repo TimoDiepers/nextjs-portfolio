@@ -171,7 +171,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
             className="flex items-center gap-3 pb-2 opacity-0"
           >
             <div className="flex items-center gap-2">
-              <div className={`flex items-center justify-center w-5 h-5 rounded-full ${accentClass}`}>
+              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500">
                 <svg
                   className="w-3 h-3 text-white fill-current"
                   viewBox="0 0 20 20"
@@ -233,7 +233,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           {featuredItems.length > 0 && (
             <div className="flex items-center gap-3 pt-2">
               <div className="h-px bg-border flex-1" />
-              <span className={`text-xs font-medium px-2 ${accentClass} text-white rounded-full px-3 py-1`}>More {title}</span>
+              <span className="text-xs text-muted-foreground font-medium px-2">More {title}</span>
               <div className="h-px bg-border flex-1" />
             </div>
           )}
@@ -255,7 +255,6 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
             <CollapsibleSection 
               expandText={`Show ${nonFeaturedItems.length - 3} more`}
               collapseText="Show less"
-              accentClass={accentClass}
             >
               <div className="grid gap-2">
                 {nonFeaturedItems.slice(3).map((item) => (
