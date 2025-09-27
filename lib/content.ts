@@ -64,6 +64,62 @@ export const publications: ContentItem[] = [
     ],
     featured: false,
   },
+  {
+    id: 'conference-paper-2',
+    title: 'Machine Learning Applications in Life Cycle Assessment',
+    meta: 'International Conference on LCA · 2023',
+    description: 'Exploring the integration of machine learning techniques for automated LCA data processing.',
+    topics: ['Conference Paper', 'Machine Learning', 'Automation'],
+    links: [
+      { label: 'Paper', href: '#' },
+      { label: 'Code', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'journal-paper-2',
+    title: 'Uncertainty Quantification in Dynamic LCA Models',
+    meta: 'Journal of Cleaner Production · 2023',
+    description: 'Methodological framework for handling uncertainty in time-explicit life cycle assessments.',
+    topics: ['Journal Paper', 'Uncertainty', 'Methodology'],
+    links: [
+      { label: 'Paper', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'workshop-paper-2',
+    title: 'Data Quality in Industrial Ecology Research',
+    meta: 'ISIE Workshop · 2022',
+    description: 'Best practices for ensuring data quality in industrial ecology studies.',
+    topics: ['Workshop Paper', 'Data Quality', 'Industrial Ecology'],
+    links: [
+      { label: 'Paper', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'conference-paper-3',
+    title: 'Carbon Footprint Assessment of Renewable Energy Systems',
+    meta: 'Renewable Energy Conference · 2022',
+    description: 'Comprehensive carbon footprint analysis of various renewable energy technologies.',
+    topics: ['Conference Paper', 'Carbon Footprint', 'Renewable Energy'],
+    links: [
+      { label: 'Paper', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'book-chapter-1',
+    title: 'Temporal Aspects in Environmental Assessment',
+    meta: 'Handbook of Life Cycle Assessment · 2022',
+    description: 'Book chapter on incorporating temporal dynamics in environmental impact assessments.',
+    topics: ['Book Chapter', 'Environmental Assessment', 'Methodology'],
+    links: [
+      { label: 'Chapter', href: '#' },
+    ],
+    featured: false,
+  },
 ];
 
 export const presentations: ContentItem[] = [
@@ -131,6 +187,64 @@ export const presentations: ContentItem[] = [
     ],
     featured: false,
   },
+  {
+    id: "seminar-2023",
+    title: "PhD Seminar: Sustainable Process Optimization",
+    meta: "RWTH Aachen University · 2023",
+    description: "Seminar presentation on optimization techniques for sustainable chemical processes.",
+    topics: ["Seminar", "Process Optimization", "Chemical Engineering"],
+    links: [
+      { label: "Slides", href: "#" },
+    ],
+    featured: false,
+  },
+  {
+    id: "conference-talk-2023",
+    title: "Time-explicit LCA: Current Challenges and Future Directions",
+    meta: "European LCA Conference · 2023",
+    description: "Conference presentation discussing the state-of-the-art in temporal LCA methodology.",
+    topics: ["Conference Talk", "Life Cycle Assessment", "Methodology"],
+    links: [
+      { label: "Abstract", href: "#" },
+      { label: "Slides", href: "#" },
+    ],
+    featured: false,
+  },
+  {
+    id: "webinar-2023",
+    title: "Introduction to bw_timex Framework",
+    meta: "Brightway Community Webinar · 2023",
+    description: "Technical webinar introducing the bw_timex framework to the Brightway community.",
+    topics: ["Webinar", "Software Tool", "Tutorial"],
+    links: [
+      { label: "Recording", href: "#" },
+      { label: "Materials", href: "#" },
+    ],
+    featured: false,
+  },
+  {
+    id: "poster-2022",
+    title: "Dynamic LCA of Battery Storage Systems",
+    meta: "Industrial Ecology Conference · 2022",
+    description: "Poster presentation on dynamic life cycle assessment of battery energy storage systems.",
+    topics: ["Poster", "Energy Storage", "Dynamic LCA"],
+    links: [
+      { label: "Poster", href: "#" },
+    ],
+    featured: false,
+  },
+  {
+    id: "workshop-2022",
+    title: "Hands-on Python for LCA Practitioners",
+    meta: "LCA Summer School · 2022",
+    description: "Practical workshop teaching Python programming skills for LCA practitioners.",
+    topics: ["Workshop", "Python", "Training"],
+    links: [
+      { label: "Materials", href: "#" },
+      { label: "Code", href: "#" },
+    ],
+    featured: false,
+  },
 ];
 
 export const codingProjects: ContentItem[] = [
@@ -185,6 +299,65 @@ export const codingProjects: ContentItem[] = [
     links: [
       { label: 'Demo', href: '#' },
       { label: 'Code', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'data-visualization',
+    title: 'LCA Results Visualization Dashboard',
+    meta: 'Creator',
+    description: 'Interactive dashboard for visualizing life cycle assessment results and comparisons.',
+    topics: ['React', 'Visualization', 'Dashboard'],
+    links: [
+      { label: 'Demo', href: '#' },
+      { label: 'Repository', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'automation-scripts',
+    title: 'LCA Workflow Automation Scripts',
+    meta: 'Contributor',
+    description: 'Collection of automation scripts for streamlining LCA calculation workflows.',
+    topics: ['Python', 'Automation', 'Workflow'],
+    links: [
+      { label: 'Repository', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'database-tools',
+    title: 'Ecoinvent Database Processing Tools',
+    meta: 'Contributor',
+    description: 'Tools for processing and analyzing ecoinvent life cycle inventory database.',
+    topics: ['Python', 'Database', 'Data Processing'],
+    links: [
+      { label: 'Repository', href: '#' },
+      { label: 'Documentation', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'ml-model',
+    title: 'Machine Learning for Impact Prediction',
+    meta: 'Creator',
+    description: 'ML models for predicting environmental impacts based on process parameters.',
+    topics: ['Python', 'Machine Learning', 'Prediction'],
+    links: [
+      { label: 'Repository', href: '#' },
+      { label: 'Paper', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'api-wrapper',
+    title: 'Brightway API Wrapper',
+    meta: 'Contributor',
+    description: 'RESTful API wrapper for Brightway LCA framework enabling web integration.',
+    topics: ['Python', 'API', 'Web Integration'],
+    links: [
+      { label: 'Repository', href: '#' },
+      { label: 'Documentation', href: '#' },
     ],
     featured: false,
   },

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import Hero from '@/components/hero';
 import ContentCard from '@/components/content-card';
 import CompactContentItem from '@/components/compact-content-item';
+import CollapsibleSection from '@/components/collapsible-section';
 import type { ContentItem } from '@/lib/content';
 import {
   codingProjects,
@@ -195,7 +196,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
         </>
       )}
       
-      {/* Non-featured items in compact format */}
+      {/* Non-featured items in compact format with collapsibility */}
       {nonFeaturedItems.length > 0 && (
         <div className="space-y-3">
           {featuredItems.length > 0 && (
@@ -205,8 +206,10 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
               <div className="h-px bg-border flex-1" />
             </div>
           )}
+          
+          {/* Always show first 3 non-featured items */}
           <div className="grid gap-2">
-            {nonFeaturedItems.map((item, index) => (
+            {nonFeaturedItems.slice(0, 3).map((item, index) => (
               <CompactContentItem
                 key={item.id}
                 item={item}
@@ -215,6 +218,25 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
               />
             ))}
           </div>
+          
+          {/* Collapsible section for remaining items */}
+          {nonFeaturedItems.length > 3 && (
+            <CollapsibleSection 
+              expandText={`Show ${nonFeaturedItems.length - 3} more`}
+              collapseText="Show less"
+            >
+              <div className="grid gap-2">
+                {nonFeaturedItems.slice(3).map((item) => (
+                  <CompactContentItem
+                    key={item.id}
+                    item={item}
+                    delay={0} // No delay for collapsed items to avoid long wait times
+                    isActive={true} // Always active since they're shown on expand
+                  />
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
         </div>
       )}
     </MotionSection>
