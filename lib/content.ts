@@ -18,9 +18,9 @@ export type ContentItem = {
 
 export const publications: ContentItem[] = [
   {
-    id: 'generative-models-real-world',
+    id: 'timex-paper',
     title: 'Time-explicit Life Cycle Assessment: A Flexible Framework for Coherent Consideration of Temporal Dynamics',
-    meta: 'Müller & Diepers et al · IJLCA · 2025',
+    meta: 'The International Journal of Life Cycle Assessment · 2025',
     description:
       'We propose a time-explicit LCA framework that captures when processes and emissions occur, enabling dynamic assessments of evolving product systems.',
     topics: ['Journal Paper', 'Life Cycle Assessment', 'Methodology', 'Time dynamics'],
@@ -31,101 +31,61 @@ export const publications: ContentItem[] = [
     featured: true,
   },
   {
-    id: 'interactive-visual-analytics',
-    title: 'Interactive Visual Analytics for Biomedical Signals',
-    meta: 'J. Doe · IEEE VIS 2023',
+    id: 'welding',
+    title: 'DVS Focus Report: Sustainability in Welding Manufacturing',
+    meta: 'Schweissen und Schneiden · 2025',
     description:
-      'Introduces a lightweight toolkit that blends signal analysis with collaborative annotation workflows, empowering multi-disciplinary research teams.',
-    topics: ['Visualization', 'Bioinformatics'],
+      'Investigation on the state of sustainability considerations in welding manufacturing. By conducting Life Cycle Assessments on two representative welding parts, we identify the main drivers of environmental impacts in welding manufacturing and highlight opportunities for future improvements within the sector. Report available in German language only.',
+    topics: ['Focus Report', 'Life Cycle Assessment', 'Welding', 'Case Study'],
     links: [
-      { label: 'Paper', href: '#' },
-      { label: 'Demo', href: '#' },
+      { label: 'Report', href: 'https://publications.rwth-aachen.de/record/1011748' },
     ],
     featured: true,
-  },
-  {
-    id: 'robotics-commonsense',
-    title: 'Learning Commonsense for Robotics',
-    meta: 'J. Doe · R. Chen · ICRA 2022',
-    description:
-      'Presents a transformer-based approach for teaching robots everyday commonsense reasoning through simulated household tasks and human feedback.',
-    topics: ['Robotics', 'Transformer Models'],
-    links: [
-      { label: 'Paper', href: '#' },
-      { label: 'Slides', href: '#' },
-      { label: 'Video', href: '#' },
-    ],
-    featured: true,
-  },
-  {
-    id: 'federated-safety-toolkit',
-    title: 'Federated Safety Toolkit for Biomedical NLP',
-    meta: 'J. Doe · MedNLP 2021',
-    description:
-      'Blueprint for privacy-preserving deployments that balance clinical accuracy with GDPR-compliant governance.',
-    topics: ['Healthcare', 'Privacy', 'NLP'],
-    links: [
-      { label: 'Paper', href: '#' },
-      { label: 'Toolkit', href: '#' },
-    ],
   },
 ];
 
 export const presentations: ContentItem[] = [
   {
-    id: 'trustworthy-ai-keynote',
-    title: 'Keynote · Designing Trustworthy AI Tooling',
-    meta: 'Strata Data · 2024',
+    id: "ieday-2024",
+    title: "IE Day Session · What year is it? Navigating time in LCA",
+    meta: "Industrial Ecology Day · 2024",
     description:
-      'Explored the balance between model performance and human-centered design, sharing lessons from cross-functional product research.',
-    topics: ['Keynote', 'AI Product'],
+      "We chaired a session on temporal aspects of Life Cycle Assessment, discussing recent advances and open challenges.",
+    topics: ["Session", "Life Cycle Assessment", "Industrial Ecology"],
     links: [
-      { label: 'Slides', href: '#' },
-      { label: 'Event', href: '#' },
+      { label: "Recording", href: "https://www.youtube.com/watch?v=H2oPMH1mPFM" },
+      { label: "Slides", href: "https://zenodo.org/records/14198448" },
+      { label: "Event", href: "https://is4ie.org/events/event/international-industrial-ecology-day-2024" },
     ],
-    imageLight: '/teasers/presentation.svg',
-    imageDark: '/teasers/presentation-dark.svg',
+    imageLight: "/teasers/ieday_logo.png",
+    imageDark: "/teasers/ieday_logo.png",
     featured: true,
   },
   {
-    id: 'framer-motion-workshop',
-    title: 'Workshop · Rapid Prototyping with Framer Motion',
-    meta: 'React Summit · 2023',
+    id: "brightcon-2024",
+    title: "Interactive Presentation · Time-explicit LCA with bw_timex",
+    meta: "BrightCon Conference · 2024",
     description:
-      'Hands-on session guiding engineers through motion design fundamentals and production-ready animation pipelines.',
-    topics: ['Workshop', 'Motion Design', 'Frontend'],
+      "Presenting the concept of time-explicit LCA and showcasing bw_timex, our time-explicit LCA python package based on Brightway",
+    topics: ["Conference Presentation", "Life Cycle Assessment"],
     links: [
-      { label: 'Slides', href: '#' },
-      { label: 'Code Sandbox', href: '#' },
+      {
+        label: "Recording",
+        href: "https://www.youtube.com/watch?v=5ksD0_f3fiA&t=1539s",
+      },
+      {
+        label: "Slides",
+        href: "https://github.com/Depart-de-Sentier/brightcon-2024-material/blob/main/talks/Thursday/bw_timex/0_bw_timex_presentation.pdf",
+      },
+      {
+        label: "Further Material",
+        href: "https://github.com/Depart-de-Sentier/brightcon-2024-material/tree/main/talks/Thursday/bw_timex",
+      },
+      { label: "Event", href: "https://2024.brightcon.link" },
     ],
-    imageLight: '/teasers/presentation.svg',
-    imageDark: '/teasers/presentation-dark.svg',
+    imageLight: "/teasers/brightcon.png",
+    imageDark: "/teasers/brightcon.png",
     featured: true,
-  },
-  {
-    id: 'open-source-panel',
-    title: 'Panel · Open Sourcing Research Infrastructure',
-    meta: 'SciPy · 2022',
-    description:
-      'Discussed sustainable governance models for open research tooling and how to grow contributor communities.',
-    topics: ['Panel', 'Open Source', 'Governance'],
-    links: [{ label: 'Recording', href: '#' }],
-    imageLight: '/teasers/presentation.svg',
-    imageDark: '/teasers/presentation-dark.svg',
-  },
-  {
-    id: 'designing-for-clinicians',
-    title: 'Designing for Clinicians in High-Stakes Contexts',
-    meta: 'CHI · 2021',
-    description:
-      'Shared qualitative research guiding the creation of explainable AI affordances for diagnostic tools used in emergency departments.',
-    topics: ['Healthcare', 'UX Research'],
-    links: [
-      { label: 'Case Study', href: '#' },
-      { label: 'Slides', href: '#' },
-    ],
-    imageLight: '/teasers/presentation.svg',
-    imageDark: '/teasers/presentation-dark.svg',
   },
 ];
 
@@ -160,34 +120,5 @@ export const codingProjects: ContentItem[] = [
     imageLight: '/teasers/optimex_light_rtd.svg',
     imageDark: '/teasers/optimex_dark_rtd.svg',
     featured: true,
-  },
-  {
-    id: 'neuro-sketch',
-    title: 'NeuroSketch',
-    meta: 'Co-author · Mozilla Builders',
-    description:
-      'Web-based sketching environment that uses on-device models to translate drawings into spatial audio cues.',
-    topics: ['Web Audio', 'Creative Tech', 'Accessibility'],
-    links: [
-      { label: 'Repository', href: '#' },
-      { label: 'Case Study', href: '#' },
-      { label: 'Live Demo', href: '#' },
-    ],
-    imageLight: '/teasers/coding.svg',
-    imageDark: '/teasers/coding-dark.svg',
-  },
-  {
-    id: 'atlas-performance-kit',
-    title: 'Atlas Performance Kit',
-    meta: 'Contributor · Chrome Labs',
-    description:
-      'CLI utilities for profiling WebAssembly pipelines and generating optimized bundles for edge runtimes.',
-    topics: ['Performance', 'WebAssembly', 'Tooling'],
-    links: [
-      { label: 'Repository', href: '#' },
-      { label: 'Docs', href: '#' },
-    ],
-    imageLight: '/teasers/coding.svg',
-    imageDark: '/teasers/coding-dark.svg',
   },
 ];
