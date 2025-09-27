@@ -128,12 +128,12 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           custom={delay}
           className="flex items-center gap-3 sm:gap-6 opacity-0"
         >
-          <span className={`inline-flex pl-2 h-10 w-1.5 rounded-full ${accentClass}`} />
+          <span className={`inline-flex pl-2 h-12 w-2 rounded-full ${accentClass}`} />
           <div>
-            <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
               {title}
             </h2>
-            <p className="max-w-xl text-sm text-muted-foreground sm:text-base">
+            <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
               {description}
             </p>
           </div>
@@ -160,6 +160,29 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       {/* Featured items in full card format */}
       {featuredItems.length > 0 && (
         <>
+          {/* Highlights indicator */}
+          <div className="flex items-center gap-3 pb-2">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500">
+                <svg
+                  className="w-3 h-3 text-white fill-current"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 2L13.09 8.26L20 9L15 13.74L16.18 20.02L10 16.77L3.82 20.02L5 13.74L0 9L6.91 8.26L10 2Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-muted-foreground">
+                Highlights
+              </span>
+            </div>
+            <div className="h-px bg-border flex-1" />
+          </div>
+          
           <Carousel
             opts={{ align: 'start', containScroll: 'trimSnaps' }}
             className="relative w-screen lg:hidden -mx-4 sm:-mx-6 lg:-mx-8"
