@@ -96,16 +96,16 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
     };
   }, [shouldAnimate, headerControls, linkControls, delay]);
 
-  const carouselViewportClass = shouldPeekNextCard ? 'px-6 sm:px-6' : 'px-6 sm:px-6';
+  const carouselViewportClass = 'px-4 sm:px-6 lg:px-8';
   const carouselContentClass = cn(
     'ml-0 gap-4 py-4',
     shouldPeekNextCard ? 'pr-16' : 'pr-0'
   );
 
   const carouselItemClass = shouldPeekNextCard
-    ? 'basis-[70vw] pl-0 sm:basis-[65vw] md:basis-[45%]'
+    ? 'basis-[80vw] pl-0 sm:basis-[65vw] md:basis-[45%]'
     : itemCount === 2
-      ? 'basis-[70vw] pl-0 sm:basis-[65vw] md:basis-[calc(50%-0.5rem)]'
+      ? 'basis-[80vw] pl-0 sm:basis-[65vw] md:basis-[calc(50%-0.5rem)]'
       : 'basis-full pl-0 sm:basis-full md:basis-full';
 
   return (
@@ -150,7 +150,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       </div>
       <Carousel
         opts={{ align: 'start', containScroll: 'trimSnaps' }}
-        className="relative w-full lg:hidden"
+        className="relative w-screen lg:hidden -mx-4 sm:-mx-6 lg:-mx-8"
       >
         <CarouselContent
           viewportClassName={carouselViewportClass}
