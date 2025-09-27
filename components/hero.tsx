@@ -2,13 +2,9 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faOrcid, faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import { motion } from 'framer-motion';
-import {
-  ArrowUpRight,
-  Fingerprint,
-  Github,
-  Linkedin,
-} from 'lucide-react';
 import ThemeToggle from '@/components/theme-toggle';
 import TextFlip from './animata/text/text-flip';
 import AnimatedGradientText from './animata/text/animated-gradient-text';
@@ -30,9 +26,9 @@ const MotionHeroImageShell = motion.create('div');
 const MotionHeroFrame = motion.create('div');
 
 const SOCIAL_LINKS = [
-  { href: 'https://orcid.org/0000-0000-0000-0000', label: 'ORCID', icon: Fingerprint },
-  { href: 'https://github.com/username', label: 'GitHub', icon: Github },
-  { href: 'https://linkedin.com/in/username', label: 'LinkedIn', icon: Linkedin },
+  { href: 'https://github.com/TimoDiepers', label: 'GitHub', icon: faGithub },
+  { href: 'https://www.linkedin.com/in/timo-diepers/', label: 'LinkedIn', icon: faLinkedinIn },
+  { href: 'https://orcid.org/0009-0002-8566-8618', label: 'ORCID', icon: faOrcid },
 ];
 
 const Hero = ({ onReady, onExploreClick }: HeroProps) => {
@@ -102,7 +98,7 @@ const Hero = ({ onReady, onExploreClick }: HeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.32 }}
             >
-              {SOCIAL_LINKS.map(({ href, label, icon: Icon }, index) => (
+              {SOCIAL_LINKS.map(({ href, label, icon }, index) => (
                 <MotionHeroIconLink
                   key={`hero-${label}`}
                   initial={{ opacity: 0, y: 4 }}
@@ -111,10 +107,10 @@ const Hero = ({ onReady, onExploreClick }: HeroProps) => {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 z-2 items-center justify-center text-primary transition-transform duration-300 hover:scale-[1.1] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="inline-flex h-10 w-10 z-2 items-center justify-center text-muted-foreground transition-transform duration-300 hover:scale-[1.1] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   aria-label={label}
                 >
-                  <Icon className="h-4 w-4" />
+                  <FontAwesomeIcon icon={icon} className="text-2xl" />
                 </MotionHeroIconLink>
               ))}
             </motion.div>

@@ -11,6 +11,8 @@ export type ContentItem = {
   topics: string[];
   links: ContentLink[];
   image?: string;
+  imageLight?: string;
+  imageDark?: string;
   featured?: boolean;
 };
 
@@ -81,7 +83,8 @@ export const presentations: ContentItem[] = [
       { label: 'Slides', href: '#' },
       { label: 'Event', href: '#' },
     ],
-    image: '/teasers/presentation.svg',
+    imageLight: '/teasers/presentation.svg',
+    imageDark: '/teasers/presentation-dark.svg',
     featured: true,
   },
   {
@@ -95,7 +98,8 @@ export const presentations: ContentItem[] = [
       { label: 'Slides', href: '#' },
       { label: 'Code Sandbox', href: '#' },
     ],
-    image: '/teasers/presentation.svg',
+    imageLight: '/teasers/presentation.svg',
+    imageDark: '/teasers/presentation-dark.svg',
     featured: true,
   },
   {
@@ -106,7 +110,8 @@ export const presentations: ContentItem[] = [
       'Discussed sustainable governance models for open research tooling and how to grow contributor communities.',
     topics: ['Panel', 'Open Source', 'Governance'],
     links: [{ label: 'Recording', href: '#' }],
-    image: '/teasers/presentation.svg',
+    imageLight: '/teasers/presentation.svg',
+    imageDark: '/teasers/presentation-dark.svg',
   },
   {
     id: 'designing-for-clinicians',
@@ -119,37 +124,41 @@ export const presentations: ContentItem[] = [
       { label: 'Case Study', href: '#' },
       { label: 'Slides', href: '#' },
     ],
-    image: '/teasers/presentation.svg',
+    imageLight: '/teasers/presentation.svg',
+    imageDark: '/teasers/presentation-dark.svg',
   },
 ];
 
 export const codingProjects: ContentItem[] = [
   {
-    id: 'studiokit',
-    title: 'StudioKit · A Design System for Research Teams',
-    meta: 'Maintainer · 2k stars',
+    id: 'bw_timex',
+    title: 'bw_timex · Time-explicit Life Cycle Assessment Framework',
+    meta: 'Creator',
     description:
-      'A component library and token pipeline that keeps product and research prototypes visually aligned across platforms.',
-    topics: ['TypeScript', 'Design Systems'],
+      'Assess environmental impacts considering the temporal distribution and temporal evolution of processes and their supply chains.',
+    topics: ['Python', 'Brightway'],
     links: [
-      { label: 'Repository', href: '#' },
-      { label: 'Docs', href: '#' },
+      { label: 'Repository', href: 'https://github.com/brightway-lca/bw_timex' },
+      { label: 'Documentation', href: 'https://docs.brightway.dev/projects/bw-timex/en/latest/' },
+      { label: 'JOSS Paper', href: 'https://joss.theoj.org/papers/eb9021af0207b86e02439768a4841670' },
     ],
-    image: '/teasers/coding.svg',
+    imageLight: '/teasers/bw_timex_light_rtd.svg',
+    imageDark: '/teasers/bw_timex_dark_rtd.svg',
     featured: true,
   },
   {
-    id: 'helios-ml-ops',
-    title: 'Helios ML Ops Templates',
-    meta: 'Creator · GCP + AWS',
+    id: 'optimex',
+    title: 'optimex  · Time-explicit Transition Pathway Optimization',
+    meta: 'Creator',
     description:
       'Opinionated infrastructure templates that standardize experiment tracking, evaluation, and rollout for ML teams.',
-    topics: ['Terraform', 'ML Ops', 'Cloud'],
+    topics: ['Python', 'Brightway', 'Pyomo'],
     links: [
-      { label: 'Repository', href: '#' },
-      { label: 'Guide', href: '#' },
+      { label: 'Repository', href: 'https://github.com/TimoDiepers/optimex' },
+      { label: 'Documentation', href: 'https://optimex.readthedocs.io/en/latest/' },
     ],
-    image: '/teasers/coding.svg',
+    imageLight: '/teasers/optimex_light_rtd.svg',
+    imageDark: '/teasers/optimex_dark_rtd.svg',
     featured: true,
   },
   {
@@ -164,7 +173,8 @@ export const codingProjects: ContentItem[] = [
       { label: 'Case Study', href: '#' },
       { label: 'Live Demo', href: '#' },
     ],
-    image: '/teasers/coding.svg',
+    imageLight: '/teasers/coding.svg',
+    imageDark: '/teasers/coding-dark.svg',
   },
   {
     id: 'atlas-performance-kit',
@@ -177,6 +187,7 @@ export const codingProjects: ContentItem[] = [
       { label: 'Repository', href: '#' },
       { label: 'Docs', href: '#' },
     ],
-    image: '/teasers/coding.svg',
+    imageLight: '/teasers/coding.svg',
+    imageDark: '/teasers/coding-dark.svg',
   },
 ];

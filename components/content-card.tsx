@@ -6,6 +6,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import type { ContentItem } from '@/lib/content';
+import { useTheme } from '@/components/theme-provider';
 
 type ContentCardProps = {
   item: ContentItem;
@@ -23,6 +24,24 @@ const ContentCard = ({
   const shouldReduceMotion = useReducedMotion();
   const shouldAnimate = !(disableAnimation || shouldReduceMotion);
   const usesParentTrigger = shouldAnimate && typeof isActive === 'boolean';
+  const { isDark, ready } = useTheme();
+
+  const imageSrc = useMemo(() => {
+    const hasAnyImage = item.image || item.imageLight || item.imageDark;
+
+    if (!hasAnyImage) {
+      return undefined;
+    }
+
+    const lightImage = item.imageLight ?? item.image ?? item.imageDark;
+    const darkImage = item.imageDark ?? item.image ?? item.imageLight;
+
+    if (!ready) {
+      return item.image ?? lightImage ?? darkImage;
+    }
+
+    return isDark ? darkImage ?? lightImage : lightImage ?? darkImage;
+  }, [item.image, item.imageDark, item.imageLight, isDark, ready]);
 
   const transition = useMemo(
     () => ({
@@ -48,10 +67,10 @@ const ContentCard = ({
   const cardBody = (
     <Card className="group relative flex h-full flex-col rounded-3xl bg-card transition-colors transition-transform duration-500 hover:scale-[1.02]">
       <CardContent className="flex h-full flex-col gap-4 p-5 sm:p-6">
-        {item.image ? (
-          <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-muted/30">
+        {imageSrc ? (
+          <div className="relative overflow-hidden rounded-2xl bg-background">
             <Image
-              src={item.image}
+              src={imageSrc}
               alt={`${item.title} teaser`}
               width={640}
               height={400}
