@@ -6,6 +6,7 @@ import { motion, type Variants, useAnimationControls, useInView } from 'framer-m
 import { cn } from '@/lib/utils';
 import Hero from '@/components/hero';
 import ContentCard from '@/components/content-card';
+import CompactContentItem from '@/components/compact-content-item';
 import type { ContentItem } from '@/lib/content';
 import {
   codingProjects,
@@ -71,8 +72,12 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const isSectionInView = useInView(sectionRef, { once: true, amount: 0.3 });
   const shouldAnimate = isReady && isSectionInView;
-  const itemCount = items.length;
-  const shouldPeekNextCard = itemCount >= 3;
+  
+  // Separate featured and non-featured items
+  const featuredItems = items.filter(item => item.featured);
+  const nonFeaturedItems = items.filter(item => !item.featured);
+  
+  const shouldPeekNextCard = featuredItems.length >= 3;
   const headerControls = useAnimationControls();
   const linkControls = useAnimationControls();
   const hasStartedAnimationRef = useRef(false);
@@ -104,7 +109,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
 
   const carouselItemClass = shouldPeekNextCard
     ? 'basis-[80vw] pl-0 sm:basis-[65vw] md:basis-[45%]'
-    : itemCount === 2
+    : featuredItems.length === 2
       ? 'basis-[80vw] pl-0 sm:basis-[65vw] md:basis-[calc(50%-0.5rem)]'
       : 'basis-full pl-0 sm:basis-full md:basis-full';
 
@@ -132,63 +137,91 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
             </p>
           </div>
         </MotionHeaderShell>
-        <MotionLinkShell
-          variants={linkVariants}
-          initial="hidden"
-          animate={linkControls}
-          custom={delay}
-          className="inline-flex opacity-0"
-        >
-          <a
-            href={seeAllHref}
-            className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+        {seeAllHref && nonFeaturedItems.length === 0 && (
+          <MotionLinkShell
+            variants={linkVariants}
+            initial="hidden"
+            animate={linkControls}
+            custom={delay}
+            className="inline-flex opacity-0"
           >
-            View all
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
-        </MotionLinkShell>
-      </div>
-      <Carousel
-        opts={{ align: 'start', containScroll: 'trimSnaps' }}
-        className="relative w-screen lg:hidden -mx-4 sm:-mx-6 lg:-mx-8"
-      >
-        <CarouselContent
-          viewportClassName={carouselViewportClass}
-          className={carouselContentClass}
-        >
-          {items.map((item, index) => (
-            <CarouselItem
-              key={item.id}
-              className={carouselItemClass}
+            <a
+              href={seeAllHref}
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             >
-              <ContentCard
+              View all
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          </MotionLinkShell>
+        )}
+      </div>
+      
+      {/* Featured items in full card format */}
+      {featuredItems.length > 0 && (
+        <>
+          <Carousel
+            opts={{ align: 'start', containScroll: 'trimSnaps' }}
+            className="relative w-screen lg:hidden -mx-4 sm:-mx-6 lg:-mx-8"
+          >
+            <CarouselContent
+              viewportClassName={carouselViewportClass}
+              className={carouselContentClass}
+            >
+              {featuredItems.map((item, index) => (
+                <CarouselItem
+                  key={item.id}
+                  className={carouselItemClass}
+                >
+                  <ContentCard
+                    item={item}
+                    delay={getCardStaggerDelay(index)}
+                    isActive={cardsActive}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+          <MotionGrid className="hidden w-full items-stretch gap-4 lg:flex lg:flex-nowrap">
+            {featuredItems.map((item, index) => (
+              <div key={`grid-${item.id}`} className="flex-1 min-w-0">
+                <ContentCard
+                  item={item}
+                  delay={getCardStaggerDelay(index)}
+                  isActive={cardsActive}
+                />
+              </div>
+            ))}
+          </MotionGrid>
+        </>
+      )}
+      
+      {/* Non-featured items in compact format */}
+      {nonFeaturedItems.length > 0 && (
+        <div className="space-y-3">
+          {featuredItems.length > 0 && (
+            <div className="flex items-center gap-3 pt-2">
+              <div className="h-px bg-border flex-1" />
+              <span className="text-xs text-muted-foreground font-medium px-2">More {title}</span>
+              <div className="h-px bg-border flex-1" />
+            </div>
+          )}
+          <div className="grid gap-2">
+            {nonFeaturedItems.map((item, index) => (
+              <CompactContentItem
+                key={item.id}
                 item={item}
-                delay={getCardStaggerDelay(index)}
+                delay={featuredItems.length > 0 ? getCardStaggerDelay(index + featuredItems.length) : getCardStaggerDelay(index)}
                 isActive={cardsActive}
               />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-      <MotionGrid className="hidden w-full items-stretch gap-4 lg:flex lg:flex-nowrap">
-        {items.map((item, index) => (
-          <div key={`grid-${item.id}`} className="flex-1 min-w-0">
-            <ContentCard
-              item={item}
-              delay={getCardStaggerDelay(index)}
-              isActive={cardsActive}
-            />
+            ))}
           </div>
-        ))}
-      </MotionGrid>
+        </div>
+      )}
     </MotionSection>
   );
 };
 
-const featuredPublications = publications.filter((item) => item.featured);
-const featuredPresentations = presentations.filter((item) => item.featured);
-const featuredCodingProjects = codingProjects.filter((item) => item.featured);
-
+// Remove the filtering - pass all items to show both featured and non-featured
 const PersonalSite = () => {
   const [heroReady, setHeroReady] = useState(false);
 
@@ -217,7 +250,7 @@ const PersonalSite = () => {
             id="featured-publications"
             title="Publications"
             description="Explore my journal papers, scientific reports and conference publications."
-            items={featuredPublications}
+            items={publications}
             seeAllHref="/publications"
             accentClass="bg-chart-1/60"
             isReady={heroReady}
@@ -227,7 +260,7 @@ const PersonalSite = () => {
             id="featured-presentations"
             title="Presentations"
             description="Conference talks and workshops that showcase my research and some software tools I have developed."
-            items={featuredPresentations}
+            items={presentations}
             seeAllHref="/presentations"
             accentClass="bg-chart-3/60"
             isReady={heroReady}
@@ -237,7 +270,7 @@ const PersonalSite = () => {
             id="featured-coding"
             title="Coding Projects"
             description="Software packages, scripts, web applications and other tools I've worked on."
-            items={featuredCodingProjects}
+            items={codingProjects}
             seeAllHref="/coding"
             accentClass="bg-chart-5/60"
             isReady={heroReady}

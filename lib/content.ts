@@ -42,6 +42,28 @@ export const publications: ContentItem[] = [
     ],
     featured: true,
   },
+  {
+    id: 'conference-paper-1',
+    title: 'Temporal Dynamics in Environmental Impact Assessment',
+    meta: 'Environmental Science & Technology · 2024',
+    description: 'A comprehensive analysis of time-dependent environmental impacts in industrial processes.',
+    topics: ['Conference Paper', 'Environmental Impact', 'Industrial Processes'],
+    links: [
+      { label: 'Paper', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'workshop-paper-1',
+    title: 'Optimization Methods for Sustainable Manufacturing',
+    meta: 'CIRP Workshop · 2023',
+    description: 'Workshop paper on mathematical optimization approaches for sustainable manufacturing processes.',
+    topics: ['Workshop Paper', 'Optimization', 'Manufacturing'],
+    links: [
+      { label: 'Paper', href: '#' },
+    ],
+    featured: false,
+  },
 ];
 
 export const presentations: ContentItem[] = [
@@ -87,6 +109,28 @@ export const presentations: ContentItem[] = [
     imageDark: "/teasers/brightcon.png",
     featured: true,
   },
+  {
+    id: "workshop-2023",
+    title: "Sustainable Process Design Workshop",
+    meta: "RWTH Aachen University · 2023",
+    description: "Workshop on sustainable process design methodologies.",
+    topics: ["Workshop", "Process Design", "Sustainability"],
+    links: [
+      { label: "Materials", href: "#" },
+    ],
+    featured: false,
+  },
+  {
+    id: "guest-lecture-2024", 
+    title: "Guest Lecture: LCA in Industry",
+    meta: "TU Delft · 2024",
+    description: "Guest lecture on practical applications of Life Cycle Assessment in industrial settings.",
+    topics: ["Guest Lecture", "Life Cycle Assessment", "Industry"],
+    links: [
+      { label: "Slides", href: "#" },
+    ],
+    featured: false,
+  },
 ];
 
 export const codingProjects: ContentItem[] = [
@@ -120,5 +164,28 @@ export const codingProjects: ContentItem[] = [
     imageLight: '/teasers/optimex_light_rtd.svg',
     imageDark: '/teasers/optimex_dark_rtd.svg',
     featured: true,
+  },
+  {
+    id: 'data-analysis-scripts',
+    title: 'LCA Data Analysis Scripts',
+    meta: 'Contributor',
+    description: 'Collection of Python scripts for analyzing Life Cycle Assessment data and generating reports.',
+    topics: ['Python', 'Data Analysis', 'Scripts'],
+    links: [
+      { label: 'Repository', href: '#' },
+    ],
+    featured: false,
+  },
+  {
+    id: 'web-calculator',
+    title: 'Environmental Impact Calculator',
+    meta: 'Creator',
+    description: 'Web-based calculator for quick environmental impact assessments.',
+    topics: ['JavaScript', 'Web App', 'Calculator'],
+    links: [
+      { label: 'Demo', href: '#' },
+      { label: 'Code', href: '#' },
+    ],
+    featured: false,
   },
 ];
