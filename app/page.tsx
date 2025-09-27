@@ -81,6 +81,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   const shouldPeekNextCard = featuredItems.length >= 3;
   const headerControls = useAnimationControls();
   const linkControls = useAnimationControls();
+  const highlightsControls = useAnimationControls();
   const hasStartedAnimationRef = useRef(false);
   const [cardsActive, setCardsActive] = useState(false);
 
@@ -93,6 +94,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
 
     void headerControls.start('visible');
     void linkControls.start('visible');
+    void highlightsControls.start('visible');
 
     const startDelayMs = Math.max(0, (delay + CARD_OVERLAP_DELAY) * 1000);
     const timer = window.setTimeout(() => setCardsActive(true), startDelayMs);
@@ -160,10 +162,16 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       {/* Featured items in full card format */}
       {featuredItems.length > 0 && (
         <>
-          {/* Highlights indicator */}
-          <div className="flex items-center gap-3 pb-2">
+          {/* Animated highlights indicator with section accent color */}
+          <MotionHeaderShell
+            variants={headerVariants}
+            initial="hidden"
+            animate={highlightsControls}
+            custom={delay + 0.1}
+            className="flex items-center gap-3 pb-2 opacity-0"
+          >
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500">
+              <div className={`flex items-center justify-center w-5 h-5 rounded-full ${accentClass}`}>
                 <svg
                   className="w-3 h-3 text-white fill-current"
                   viewBox="0 0 20 20"
@@ -181,7 +189,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
               </span>
             </div>
             <div className="h-px bg-border flex-1" />
-          </div>
+          </MotionHeaderShell>
           
           <Carousel
             opts={{ align: 'start', containScroll: 'trimSnaps' }}
@@ -225,7 +233,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           {featuredItems.length > 0 && (
             <div className="flex items-center gap-3 pt-2">
               <div className="h-px bg-border flex-1" />
-              <span className="text-xs text-muted-foreground font-medium px-2">More {title}</span>
+              <span className={`text-xs font-medium px-2 ${accentClass} text-white rounded-full px-3 py-1`}>More {title}</span>
               <div className="h-px bg-border flex-1" />
             </div>
           )}
@@ -247,6 +255,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
             <CollapsibleSection 
               expandText={`Show ${nonFeaturedItems.length - 3} more`}
               collapseText="Show less"
+              accentClass={accentClass}
             >
               <div className="grid gap-2">
                 {nonFeaturedItems.slice(3).map((item) => (

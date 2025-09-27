@@ -11,6 +11,7 @@ type CollapsibleSectionProps = {
   expandText?: string;
   collapseText?: string;
   className?: string;
+  accentClass?: string;
 };
 
 const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
@@ -20,6 +21,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   expandText = "Show more",
   collapseText = "Show less",
   className = "",
+  accentClass = "",
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(false);
   
@@ -58,7 +60,11 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
       <div className="flex justify-center pt-2">
         <button
           onClick={handleToggle}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full px-3 py-1.5 hover:bg-primary/5"
+          className={`group inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full px-3 py-1.5 ${
+            accentClass 
+              ? `${accentClass} text-white hover:opacity-90` 
+              : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+          }`}
         >
           {isExpanded ? collapseText : expandText}
           {isExpanded ? (
