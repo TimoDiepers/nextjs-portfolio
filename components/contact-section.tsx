@@ -27,7 +27,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isReady = false }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
-      className="space-y-8 border-t border-border/60 pt-16 pb-8"
+      className="space-y-8 border-t border-border/60 pt-20 pb-8 mt-8"
     >
       {/* Header */}
       <div className="flex items-center gap-3 sm:gap-6">
@@ -68,9 +68,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isReady = false }) => {
               <Mail className="h-4 w-4" />
               Send Email
             </MotionContactLink>
-            <span className="text-sm text-muted-foreground font-mono">
-              timo.diepers@rwth-aachen.de
-            </span>
           </div>
         </div>
 

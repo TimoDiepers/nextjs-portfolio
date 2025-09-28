@@ -123,21 +123,21 @@ const Hero = ({ onReady, onExploreClick, onContactClick }: HeroProps) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.32 }}
-              className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4"
+              className="flex flex-row items-center gap-2 text-sm"
             >
               <a
                 href="#featured-publications"
                 onClick={onExploreClick}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
+                className="inline-flex items-center gap-1 font-medium text-primary hover:text-primary/80 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md px-1 py-0.5"
               >
                 Explore work
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                <ArrowUpRight className="h-3 w-3" />
               </a>
-              <span className="text-muted-foreground text-sm">•</span>
+              <span className="text-muted-foreground">•</span>
               <a
                 href="#contact"
                 onClick={onContactClick}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
+                className="inline-flex items-center gap-1 font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md px-1 py-0.5"
               >
                 Get in touch
               </a>
