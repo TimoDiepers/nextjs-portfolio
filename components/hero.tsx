@@ -2,36 +2,27 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faOrcid, faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ThemeToggle from '@/components/theme-toggle';
-import TextFlip from './animata/text/text-flip';
-import AnimatedGradientText from './animata/text/animated-gradient-text';
 import TypingText from './ui/shadcn-io/typing-text';
 
 type HeroProps = {
   onReady?: () => void;
   onExploreClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  onContactClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
 const MotionHeroSection = motion.create('section');
-const MotionBackground = motion.create('div');
-const MotionBlob = motion.create('div');
 const MotionHeroContent = motion.create('div');
 const MotionHeroHeading = motion.create('h1');
 const MotionHeroSubcopy = motion.create('p');
-const MotionHeroIconLink = motion.create('a');
 const MotionHeroImageShell = motion.create('div');
 const MotionHeroFrame = motion.create('div');
+const MotionHeroActions = motion.create('div');
 
-const SOCIAL_LINKS = [
-  { href: 'https://github.com/TimoDiepers', label: 'GitHub', icon: faGithub },
-  { href: 'https://www.linkedin.com/in/timo-diepers/', label: 'LinkedIn', icon: faLinkedinIn },
-  { href: 'https://orcid.org/0009-0002-8566-8618', label: 'ORCID', icon: faOrcid },
-];
 
-const Hero = ({ onReady, onExploreClick }: HeroProps) => {
+const Hero = ({ onReady, onExploreClick, onContactClick }: HeroProps) => {
   React.useEffect(() => {
     const timer = window.setTimeout(() => {
       onReady?.();
@@ -76,8 +67,6 @@ const Hero = ({ onReady, onExploreClick }: HeroProps) => {
             className="mx-auto flex w-44 flex-col items-center gap-4 sm:w-48 md:order-2"
           >
             <MotionHeroFrame
-              // animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
-              // transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
               className="relative flex items-center justify-center transition-colors duration-300 rounded-full border border-border/55 bg-background/90 p-2 shadow-[0_6px_12px_rgba(8,20,34,0.14)] backdrop-blur-2xl"
             >
               <div className="relative h-40 w-40 overflow-hidden rounded-full border border-border/45 sm:h-48 sm:w-48">
@@ -91,29 +80,6 @@ const Hero = ({ onReady, onExploreClick }: HeroProps) => {
                 />
               </div>
             </MotionHeroFrame>
-
-            <motion.div
-              className="flex items-center justify-center gap-3"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.32 }}
-            >
-              {SOCIAL_LINKS.map(({ href, label, icon }, index) => (
-                <MotionHeroIconLink
-                  key={`hero-${label}`}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeOut', delay: index * 0.075 }}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 z-2 items-center justify-center text-muted-foreground transition-transform duration-300 hover:scale-[1.1] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                  aria-label={label}
-                >
-                  <FontAwesomeIcon icon={icon} className="text-2xl" />
-                </MotionHeroIconLink>
-              ))}
-            </motion.div>
           </MotionHeroImageShell>
 
           <MotionHeroContent
@@ -153,7 +119,7 @@ const Hero = ({ onReady, onExploreClick }: HeroProps) => {
               I&apos;m a Research Associate at RWTH Aachen University, exploring Methods for designing Sustainable Processes & Systems using Life Cycle Assessment and Mathematical Optimization. Most of my work is open-source, so feel free to explore my Publications and Projects below.
             </MotionHeroSubcopy>
 
-            {/* <MotionHeroActions
+            <MotionHeroActions
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.32 }}
@@ -164,16 +130,17 @@ const Hero = ({ onReady, onExploreClick }: HeroProps) => {
                 onClick={onExploreClick}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_20px_40px_rgba(0,84,159,0.25)] transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               >
-                Explore highlighted work
+                Explore work
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
-                href="/publications"
+                href="#contact"
+                onClick={onContactClick}
                 className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-5 py-2.5 text-sm font-semibold text-foreground transition-transform duration-300 hover:-translate-y-1 hover:border-primary/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
               >
-                Browse publications
+                Contact
               </a>
-            </MotionHeroActions> */}
+            </MotionHeroActions>
           </MotionHeroContent>
         </div>
       </MotionHeroSection>
