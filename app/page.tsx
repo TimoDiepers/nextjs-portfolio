@@ -162,18 +162,19 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       {/* Featured items in full card format */}
       {featuredItems.length > 0 && (
         <>
-          {/* Animated highlights indicator with section accent color */}
+          {/* Animated highlights indicator */}
           <MotionHeaderShell
             variants={headerVariants}
             initial="hidden"
             animate={highlightsControls}
             custom={delay + 0.1}
-            className="flex items-center gap-3 pb-2 opacity-0"
+            className="flex items-center justify-center gap-3 pb-2 opacity-0"
           >
+            <div className="h-px bg-border flex-1" />
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500">
+              <div className="flex items-center justify-center w-5 h-5">
                 <svg
-                  className="w-3 h-3 text-white fill-current"
+                  className="w-4 h-4 text-muted-foreground fill-current"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -231,9 +232,9 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       {nonFeaturedItems.length > 0 && (
         <div className="space-y-3">
           {featuredItems.length > 0 && (
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center justify-center gap-3 pt-2">
               <div className="h-px bg-border flex-1" />
-              <span className="text-xs text-muted-foreground font-medium px-2">More {title}</span>
+              <span className="text-sm font-medium text-muted-foreground px-2">More {title}</span>
               <div className="h-px bg-border flex-1" />
             </div>
           )}
