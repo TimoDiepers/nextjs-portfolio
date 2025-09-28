@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { motion, type Variants, useAnimationControls, useInView } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import Hero from '@/components/hero';
+import ContactSection from '@/components/contact-section';
 import ContentCard from '@/components/content-card';
 import CompactContentItem from '@/components/compact-content-item';
 import CollapsibleSection from '@/components/collapsible-section';
@@ -287,6 +288,14 @@ const PersonalSite = () => {
     }
   }, []);
 
+  const handleContactClick = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const target = document.getElementById('contact');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div
@@ -297,6 +306,7 @@ const PersonalSite = () => {
         <Hero
           onReady={() => setHeroReady(true)}
           onExploreClick={handleExploreClick}
+          onContactClick={handleContactClick}
         />
 
         <main className="space-y-14 pb-8">
@@ -331,6 +341,8 @@ const PersonalSite = () => {
             delay={0}
           />
         </main>
+        
+        <ContactSection isReady={heroReady} />
       </div>
     </div>
   );
