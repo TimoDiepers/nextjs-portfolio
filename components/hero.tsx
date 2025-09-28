@@ -123,22 +123,23 @@ const Hero = ({ onReady, onExploreClick, onContactClick }: HeroProps) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.32 }}
-              className="flex flex-col gap-4 md:flex-row md:items-center md:gap-3"
+              className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4"
             >
               <a
                 href="#featured-publications"
                 onClick={onExploreClick}
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_20px_40px_rgba(0,84,159,0.25)] transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
               >
                 Explore work
-                <ArrowUpRight className="h-4 w-4" />
+                <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
+              <span className="text-muted-foreground text-sm">•</span>
               <a
                 href="#contact"
                 onClick={onContactClick}
-                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-5 py-2.5 text-sm font-semibold text-foreground transition-transform duration-300 hover:-translate-y-1 hover:border-primary/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
               >
-                Contact
+                Get in touch
               </a>
             </MotionHeroActions>
           </MotionHeroContent>
