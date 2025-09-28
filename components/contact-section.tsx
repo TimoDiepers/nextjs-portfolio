@@ -59,7 +59,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isReady = false }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.3, ease: 'easeOut', delay: 0.6 + index * 0.1 }}
-            className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-background px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/45 hover:text-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            className="inline-flex items-center gap-2 rounded-lg bg-card px-3 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:bg-card/80 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             aria-label={label}
           >
             <FontAwesomeIcon icon={icon} className="text-base" />
