@@ -19,12 +19,12 @@ const CompactContentItem: React.FC<CompactContentItemProps> = ({
   const shouldAnimate = delay > 0 || isActive;
 
   const variants = {
-    hidden: { opacity: 0, y: 8 },
+    hidden: { opacity: 0, y: 12 },
     visible: { 
       opacity: 1, 
       y: 0, 
       transition: { 
-        duration: 0.25, 
+        duration: 0.35, 
         ease: 'easeOut' as const, 
         delay: shouldAnimate ? delay : 0 
       } 
@@ -32,7 +32,7 @@ const CompactContentItem: React.FC<CompactContentItemProps> = ({
   };
 
   const itemContent = (
-    <div className="group flex items-start gap-3 rounded-lg bg-card/50 p-3 transition-all duration-200 hover:bg-card/80 hover:shadow-sm">
+    <div className="group flex items-start gap-3 rounded-3xl px-5 sm:px-6 py-3 bg-card/50 transition-all duration-500 hover:bg-card hover:scale-[1.01]">
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
@@ -52,7 +52,7 @@ const CompactContentItem: React.FC<CompactContentItemProps> = ({
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-medium text-primary/70 hover:text-primary transition-colors"
+                className="inline-flex items-center gap-1 text-sm ml-2 font-medium text-primary/70 hover:text-primary transition-colors"
               >
                 {link.label}
                 <ArrowUpRight className="h-2.5 w-2.5" />

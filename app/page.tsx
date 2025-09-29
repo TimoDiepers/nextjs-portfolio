@@ -31,6 +31,11 @@ type FeaturedSectionProps = {
 };
 
 const MotionHeaderShell = motion.create('div');
+const MotionAccent = motion.create('span');
+const MotionTitle = motion.create('h2');
+const MotionDescription = motion.create('p');
+const MotionHighlightsShell = motion.create('div');
+const MotionDividerShell = motion.create('div');
 const MotionLinkShell = motion.create('div');
 const MotionSection = motion.create('section');
 const MotionGrid = motion.create('div');
@@ -38,6 +43,12 @@ const MotionGrid = motion.create('div');
 const CARD_STAGGER_GROUP = 3;
 const CARD_STAGGER_DELAY = 0.075;
 const CARD_OVERLAP_DELAY = 0.1;
+const COMPACT_PREVIEW_COUNT = 3;
+const MORE_DIVIDER_DELAY = 0.1;
+const COMPACT_BASE_DELAY_OFFSET = MORE_DIVIDER_DELAY;
+const COMPACT_ITEM_STAGGER = 0.08;
+const COLLAPSED_ITEM_STAGGER = 0.06;
+const HEADER_CHILD_STAGGER = 0.08;
 
 // Reset the stagger every few cards so carousel slides stay snappy.
 const getCardStaggerDelay = (index: number) =>
@@ -49,6 +60,24 @@ const headerVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.3, ease: 'easeOut', delay },
+  }),
+};
+
+const headerChildVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: 'easeOut', delay },
+  }),
+};
+
+const dividerVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: 'easeOut', delay },
   }),
 };
 
@@ -83,8 +112,13 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   const headerControls = useAnimationControls();
   const linkControls = useAnimationControls();
   const highlightsControls = useAnimationControls();
+  const dividerControls = useAnimationControls();
   const hasStartedAnimationRef = useRef(false);
+  const hasTriggeredDividerRef = useRef(false);
   const [cardsActive, setCardsActive] = useState(false);
+  const [moreItemsActive, setMoreItemsActive] = useState(false);
+  const nonFeaturedRef = useRef<HTMLDivElement | null>(null);
+  const isMoreInView = useInView(nonFeaturedRef, { once: true, amount: 0.2 });
 
   useEffect(() => {
     if (!shouldAnimate || hasStartedAnimationRef.current) {
@@ -103,7 +137,18 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
     return () => {
       window.clearTimeout(timer);
     };
-  }, [shouldAnimate, headerControls, linkControls, delay]);
+  }, [shouldAnimate, headerControls, linkControls, highlightsControls, delay]);
+
+  useEffect(() => {
+    if (!shouldAnimate || !isMoreInView || hasTriggeredDividerRef.current) {
+      return;
+    }
+
+    hasTriggeredDividerRef.current = true;
+    void dividerControls.start('visible');
+
+    setMoreItemsActive(true);
+  }, [shouldAnimate, isMoreInView, dividerControls]);
 
   const carouselViewportClass = 'px-4 sm:px-6 lg:px-8';
   const carouselContentClass = cn(
@@ -131,14 +176,26 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
           custom={delay}
           className="flex items-center gap-3 sm:gap-6 opacity-0"
         >
-          <span className={`inline-flex pl-2 h-12 w-2 rounded-full ${accentClass}`} />
+          <MotionAccent
+            variants={headerChildVariants}
+            custom={delay}
+            className={`inline-flex pl-2 h-12 w-2 rounded-full ${accentClass}`}
+          />
           <div>
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+            <MotionTitle
+              variants={headerChildVariants}
+              custom={delay + HEADER_CHILD_STAGGER}
+              className="text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl pt-4"
+            >
               {title}
-            </h2>
-            <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+            </MotionTitle>
+            <MotionDescription
+              variants={headerChildVariants}
+              custom={delay + HEADER_CHILD_STAGGER * 2}
+              className="max-w-xl text-base text-muted-foreground sm:text-lg"
+            >
               {description}
-            </p>
+            </MotionDescription>
           </div>
         </MotionHeaderShell>
         {seeAllHref && nonFeaturedItems.length === 0 && (
@@ -164,18 +221,18 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       {featuredItems.length > 0 && (
         <>
           {/* Animated highlights indicator */}
-          <MotionHeaderShell
+          <MotionHighlightsShell
             variants={headerVariants}
             initial="hidden"
             animate={highlightsControls}
             custom={delay + 0.1}
-            className="flex items-center justify-center gap-3 pb-2 opacity-0"
+            className="flex items-center justify-center gap-3 opacity-0"
           >
-            <div className="h-px bg-border flex-1" />
+            <div className="h-px flex-1 bg-border" />
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-5 h-5">
+              <div className="flex h-5 w-5 items-center justify-center">
                 <svg
-                  className="w-4 h-4 text-muted-foreground fill-current"
+                  className="h-4 w-4 fill-current text-muted-foreground"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -190,8 +247,8 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
                 Highlights
               </span>
             </div>
-            <div className="h-px bg-border flex-1" />
-          </MotionHeaderShell>
+            <div className="h-px flex-1 bg-border" />
+          </MotionHighlightsShell>
           
           <Carousel
             opts={{ align: 'start', containScroll: 'trimSnaps' }}
@@ -231,42 +288,52 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       
       {/* Non-featured items in compact format with collapsibility */}
       {nonFeaturedItems.length > 0 && (
-        <div className="space-y-3">
+        <div ref={nonFeaturedRef} className="space-y-3">
           {featuredItems.length > 0 && (
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <div className="h-px bg-border flex-1" />
-              <span className="text-sm font-medium text-muted-foreground px-2">More {title}</span>
-              <div className="h-px bg-border flex-1" />
-            </div>
+            <MotionDividerShell
+              variants={dividerVariants}
+              initial="hidden"
+              animate={dividerControls}
+              custom={delay + MORE_DIVIDER_DELAY}
+              className="flex items-center justify-center gap-3 pt-2 opacity-0"
+            >
+              <div className="h-px flex-1 bg-border" />
+              <span className="px-2 text-sm font-medium text-muted-foreground">
+                More {title}
+              </span>
+              <div className="h-px flex-1 bg-border" />
+            </MotionDividerShell>
           )}
           
           {/* Always show first 3 non-featured items */}
           <div className="grid gap-2">
-            {nonFeaturedItems.slice(0, 3).map((item, index) => (
+            {nonFeaturedItems.slice(0, COMPACT_PREVIEW_COUNT).map((item, index) => (
               <CompactContentItem
                 key={item.id}
                 item={item}
-                delay={featuredItems.length > 0 ? getCardStaggerDelay(index + featuredItems.length) : getCardStaggerDelay(index)}
-                isActive={cardsActive}
+                delay={delay + COMPACT_BASE_DELAY_OFFSET + index * COMPACT_ITEM_STAGGER}
+                isActive={cardsActive && moreItemsActive}
               />
             ))}
           </div>
           
           {/* Collapsible section for remaining items */}
-          {nonFeaturedItems.length > 3 && (
-            <CollapsibleSection 
-              expandText={`Show ${nonFeaturedItems.length - 3} more`}
-              collapseText="Show less"
-            >
-              <div className="grid gap-2">
-                {nonFeaturedItems.slice(3).map((item) => (
-                  <CompactContentItem
-                    key={item.id}
-                    item={item}
-                    delay={0} // No delay for collapsed items to avoid long wait times
-                    isActive={true} // Always active since they're shown on expand
-                  />
-                ))}
+          {nonFeaturedItems.length > COMPACT_PREVIEW_COUNT && (
+              <CollapsibleSection 
+                expandText={`Show ${nonFeaturedItems.length - COMPACT_PREVIEW_COUNT} more`}
+                collapseText="Show less"
+                isActive={cardsActive && moreItemsActive}
+                delay={delay + 0.3}
+              >
+                <div className="grid gap-2">
+                  {nonFeaturedItems.slice(COMPACT_PREVIEW_COUNT).map((item, index) => (
+                    <CompactContentItem
+                      key={item.id}
+                      item={item}
+                      delay={index * COLLAPSED_ITEM_STAGGER}
+                      isActive={moreItemsActive}
+                    />
+                  ))}
               </div>
             </CollapsibleSection>
           )}

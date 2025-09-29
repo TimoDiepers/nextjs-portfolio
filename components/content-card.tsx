@@ -65,7 +65,7 @@ const ContentCard = ({
     : 'h-full will-change-transform';
 
   const cardBody = (
-    <Card className="group relative flex h-full flex-col rounded-3xl bg-card transition-colors transition-transform duration-500 hover:scale-[1.02]">
+    <Card className="group relative flex h-full flex-col rounded-3xl bg-card transition-all duration-500 hover:scale-[1.02]">
       <CardContent className="flex h-full flex-col gap-4 p-5 sm:p-6">
         {imageSrc ? (
           <div className="relative overflow-hidden rounded-2xl bg-background">

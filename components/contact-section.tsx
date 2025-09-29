@@ -12,8 +12,8 @@ const MotionContactLink = motion.create('a');
 
 const SOCIAL_LINKS = [
   { href: 'mailto:timo.diepers@rwth-aachen.de', label: 'Mail', icon: faEnvelope },
-  { href: 'https://github.com/TimoDiepers', label: 'GitHub', icon: faGithub },
   { href: 'https://www.linkedin.com/in/timo-diepers/', label: 'LinkedIn', icon: faLinkedinIn },
+  { href: 'https://github.com/TimoDiepers', label: 'GitHub', icon: faGithub },
   { href: 'https://orcid.org/0009-0002-8566-8618', label: 'ORCID', icon: faOrcid },
 ];
 
@@ -28,24 +28,22 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isReady = false }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
-      className="space-y-8 border-t border-border/60 pt-20 pb-8 mt-8"
+      className="text-foreground border-t border-border pt-12 my-12"
     >
       {/* Header */}
       <div className="flex items-center gap-3 sm:gap-6">
-        <span className="inline-flex pl-2 h-12 w-2 rounded-full bg-chart-2/60" />
         <div>
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-            Contact
+          <h2 className="text-lg font-bold tracking-tight sm:text-xl lg:text-2xl">
+            Get in Touch
           </h2>
-          <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+          <p className="max-w-xl text-muted-foreground sm:text-lg pb-3">
             Let&apos;s connect and discuss opportunities to collaborate.
           </p>
         </div>
       </div>
-
-      {/* Content */}
       <MotionContactContent
         initial={{ opacity: 0, y: 10 }}
+
         animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
         transition={{ duration: 0.4, ease: 'easeOut', delay: 0.4 }}
         className="flex flex-wrap gap-3"
@@ -59,7 +57,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isReady = false }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.3, ease: 'easeOut', delay: 0.6 + index * 0.1 }}
-            className="inline-flex items-center gap-2 rounded-lg bg-card px-3 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:bg-card/80 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            className="inline-flex items-center gap-2 rounded-lg bg-card/50 px-3 py-2 text-sm font-medium text-foreground transition-all duration-300 hover:bg-card hover:text-primary"
             aria-label={label}
           >
             <FontAwesomeIcon icon={icon} className="text-base" />
