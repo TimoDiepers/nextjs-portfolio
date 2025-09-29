@@ -4,11 +4,36 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedinIn, faOrcid } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
 const MotionContactSection = motion.create('section');
 const MotionContactContent = motion.create('div');
 const MotionContactLink = motion.create('a');
+
+const contentVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    transition: { duration: 0.2, ease: 'easeOut' },
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.45,
+      ease: 'easeOut',
+      delay: 0.4,
+      delayChildren: 0.2,
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const linkVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
+};
 
 const SOCIAL_LINKS = [
   { href: 'mailto:timo.diepers@rwth-aachen.de', label: 'Mail', icon: faEnvelope },
@@ -42,21 +67,18 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isReady = false }) => {
         </div>
       </div>
       <MotionContactContent
-        initial={{ opacity: 0, y: 10 }}
-
-        animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-        transition={{ duration: 0.4, ease: 'easeOut', delay: 0.4 }}
+        initial="hidden"
+        animate={isReady ? 'visible' : 'hidden'}
+        variants={contentVariants}
         className="flex flex-wrap gap-3"
       >
-        {SOCIAL_LINKS.map(({ href, label, icon }, index) => (
+        {SOCIAL_LINKS.map(({ href, label, icon }) => (
           <MotionContactLink
             key={`contact-${label}`}
             href={href}
             target={label === 'Mail' ? undefined : '_blank'}
             rel={label === 'Mail' ? undefined : 'noopener noreferrer'}
-            initial={{ opacity: 0, y: 10 }}
-            animate={isReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.3, ease: 'easeOut', delay: 0.6 + index * 0.1 }}
+            variants={linkVariants}
             className="inline-flex items-center gap-2 rounded-lg bg-card/50 px-3 py-2 text-sm font-medium text-foreground transition-all duration-300 hover:bg-card hover:text-primary"
             aria-label={label}
           >

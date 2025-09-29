@@ -41,13 +41,13 @@ const MotionSection = motion.create('section');
 const MotionGrid = motion.create('div');
 
 const CARD_STAGGER_GROUP = 3;
-const CARD_STAGGER_DELAY = 0.075;
-const CARD_OVERLAP_DELAY = 0.1;
+const CARD_STAGGER_DELAY = 0.1;
+const CARD_OVERLAP_DELAY = 0.2;
 const COMPACT_PREVIEW_COUNT = 3;
 const MORE_DIVIDER_DELAY = 0.1;
 const COMPACT_BASE_DELAY_OFFSET = MORE_DIVIDER_DELAY;
 const COMPACT_ITEM_STAGGER = 0.08;
-const COLLAPSED_ITEM_STAGGER = 0.06;
+const COLLAPSED_ITEM_STAGGER = 0.1;
 const HEADER_CHILD_STAGGER = 0.08;
 
 // Reset the stagger every few cards so carousel slides stay snappy.
@@ -68,7 +68,7 @@ const headerChildVariants: Variants = {
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.35, ease: 'easeOut', delay },
+    transition: { duration: 0.3, ease: 'easeOut', delay },
   }),
 };
 
@@ -77,7 +77,7 @@ const dividerVariants: Variants = {
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.35, ease: 'easeOut', delay },
+    transition: { duration: 0.3, ease: 'easeOut', delay },
   }),
 };
 
@@ -100,10 +100,18 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   isReady,
   delay,
 }) => {
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const isSectionInView = useInView(sectionRef, { once: true, amount: 0.3 });
-  const shouldAnimate = isReady && isSectionInView;
-  
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const highlightsRef = useRef<HTMLDivElement | null>(null);
+  const moreSectionRef = useRef<HTMLDivElement | null>(null);
+
+  const isHeaderInView = useInView(headerRef, { once: true, amount: 0.7 });
+  const isHighlightsInView = useInView(highlightsRef, { once: true, amount: 0.15 });
+  const isMoreSectionInView = useInView(moreSectionRef, { once: true, amount: 0.3 });
+
+  const shouldAnimateHeader = isReady && isHeaderInView;
+  const shouldAnimateHighlights = isReady && isHighlightsInView;
+  const shouldAnimateMore = isReady && isMoreSectionInView;
+
   // Separate featured and non-featured items
   const featuredItems = items.filter(item => item.featured);
   const nonFeaturedItems = items.filter(item => !item.featured);
@@ -113,22 +121,30 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   const linkControls = useAnimationControls();
   const highlightsControls = useAnimationControls();
   const dividerControls = useAnimationControls();
-  const hasStartedAnimationRef = useRef(false);
+  const hasStartedHeaderRef = useRef(false);
+  const hasStartedHighlightsRef = useRef(false);
   const hasTriggeredDividerRef = useRef(false);
   const [cardsActive, setCardsActive] = useState(false);
   const [moreItemsActive, setMoreItemsActive] = useState(false);
-  const nonFeaturedRef = useRef<HTMLDivElement | null>(null);
-  const isMoreInView = useInView(nonFeaturedRef, { once: true, amount: 0.2 });
-
+  
   useEffect(() => {
-    if (!shouldAnimate || hasStartedAnimationRef.current) {
+    if (!shouldAnimateHeader || hasStartedHeaderRef.current) {
       return;
     }
 
-    hasStartedAnimationRef.current = true;
+    hasStartedHeaderRef.current = true;
 
     void headerControls.start('visible');
     void linkControls.start('visible');
+  }, [shouldAnimateHeader, headerControls, linkControls]);
+
+  useEffect(() => {
+    if (!shouldAnimateHighlights || hasStartedHighlightsRef.current) {
+      return;
+    }
+
+    hasStartedHighlightsRef.current = true;
+
     void highlightsControls.start('visible');
 
     const startDelayMs = Math.max(0, (delay + CARD_OVERLAP_DELAY) * 1000);
@@ -137,10 +153,10 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
     return () => {
       window.clearTimeout(timer);
     };
-  }, [shouldAnimate, headerControls, linkControls, highlightsControls, delay]);
+  }, [shouldAnimateHighlights, highlightsControls, delay]);
 
   useEffect(() => {
-    if (!shouldAnimate || !isMoreInView || hasTriggeredDividerRef.current) {
+    if (!shouldAnimateMore || hasTriggeredDividerRef.current) {
       return;
     }
 
@@ -148,7 +164,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
     void dividerControls.start('visible');
 
     setMoreItemsActive(true);
-  }, [shouldAnimate, isMoreInView, dividerControls]);
+  }, [shouldAnimateMore, dividerControls]);
 
   const carouselViewportClass = 'px-4 sm:px-6 lg:px-8';
   const carouselContentClass = cn(
@@ -164,11 +180,13 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
 
   return (
     <MotionSection
-      ref={sectionRef}
       id={id}
       className="space-y-5"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div
+        ref={headerRef}
+        className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+      >
         <MotionHeaderShell
           variants={headerVariants}
           initial="hidden"
@@ -219,7 +237,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       
       {/* Featured items in full card format */}
       {featuredItems.length > 0 && (
-        <>
+        <div ref={highlightsRef} className="space-y-5">
           {/* Animated highlights indicator */}
           <MotionHighlightsShell
             variants={headerVariants}
@@ -283,12 +301,12 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
               </div>
             ))}
           </MotionGrid>
-        </>
+        </div>
       )}
       
       {/* Non-featured items in compact format with collapsibility */}
       {nonFeaturedItems.length > 0 && (
-        <div ref={nonFeaturedRef} className="space-y-3">
+        <div ref={moreSectionRef} className="space-y-3">
           {featuredItems.length > 0 && (
             <MotionDividerShell
               variants={dividerVariants}
@@ -312,7 +330,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
                 key={item.id}
                 item={item}
                 delay={delay + COMPACT_BASE_DELAY_OFFSET + index * COMPACT_ITEM_STAGGER}
-                isActive={cardsActive && moreItemsActive}
+                isActive={moreItemsActive}
               />
             ))}
           </div>
@@ -322,7 +340,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
               <CollapsibleSection 
                 expandText={`Show ${nonFeaturedItems.length - COMPACT_PREVIEW_COUNT} more`}
                 collapseText="Show less"
-                isActive={cardsActive && moreItemsActive}
+                isActive={moreItemsActive}
                 delay={delay + 0.3}
               >
                 <div className="grid gap-2">
