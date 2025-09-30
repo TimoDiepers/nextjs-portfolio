@@ -55,9 +55,9 @@ const ContentCard = ({
   const variants = useMemo(
     () => ({
       hidden: { opacity: 0, y: 24 },
-      visible: { opacity: 1, y: 0, transition },
+      visible: { opacity: 1, y: 0 },
     }),
-    [transition]
+    []
   );
 
   const containerClassName = 'h-full will-change-transform';
@@ -135,6 +135,7 @@ const ContentCard = ({
         variants={variants}
         initial="hidden"
         animate={isActive ? 'visible' : 'hidden'}
+        transition={transition}
         className={containerClassName}
       >
         {cardBody}
@@ -148,6 +149,7 @@ const ContentCard = ({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.35 }}
+      transition={transition}
       className={containerClassName}
     >
       {cardBody}
