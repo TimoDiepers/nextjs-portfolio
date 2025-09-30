@@ -26,7 +26,6 @@ type FeaturedSectionProps = {
   title: string;
   description: string;
   items: ContentItem[];
-  seeAllHref: string;
   accentClass: string;
 };
 
@@ -95,7 +94,6 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   title,
   description,
   items,
-  seeAllHref,
   accentClass,
   isReady,
   delay,
@@ -216,23 +214,6 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
             </MotionDescription>
           </div>
         </MotionHeaderShell>
-        {seeAllHref && nonFeaturedItems.length === 0 && (
-          <MotionLinkShell
-            variants={linkVariants}
-            initial="hidden"
-            animate={linkControls}
-            custom={delay}
-            className="inline-flex opacity-0"
-          >
-            <a
-              href={seeAllHref}
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-300 hover:translate-x-1 hover:text-primary/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-            >
-              View all
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
-          </MotionLinkShell>
-        )}
       </div>
       
       {/* Featured items in full card format */}
@@ -400,18 +381,7 @@ const PersonalSite = () => {
             title="Publications"
             description="Explore my journal papers, scientific reports and conference publications."
             items={publications}
-            seeAllHref="/publications"
             accentClass="bg-chart-1/60"
-            isReady={heroReady}
-            delay={0}
-          />
-          <FeaturedSection
-            id="featured-presentations"
-            title="Presentations"
-            description="Conference talks and workshops that showcase my research and some software tools I have developed."
-            items={presentations}
-            seeAllHref="/presentations"
-            accentClass="bg-chart-3/60"
             isReady={heroReady}
             delay={0}
           />
@@ -420,7 +390,15 @@ const PersonalSite = () => {
             title="Coding Projects"
             description="Software packages, scripts, web applications and other tools I've worked on."
             items={codingProjects}
-            seeAllHref="/coding"
+            accentClass="bg-chart-3/60"
+            isReady={heroReady}
+            delay={0}
+          />
+          <FeaturedSection
+            id="featured-presentations"
+            title="Presentations"
+            description="Conference talks and workshops that showcase my research and some software tools I have developed."
+            items={presentations}
             accentClass="bg-chart-5/60"
             isReady={heroReady}
             delay={0}
