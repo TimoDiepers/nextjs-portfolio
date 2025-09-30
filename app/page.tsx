@@ -123,7 +123,9 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   const hasStartedHighlightsRef = useRef(false);
   const hasTriggeredDividerRef = useRef(false);
   const [cardsActive, setCardsActive] = useState(false);
+  const [cardsFallbackActive, setCardsFallbackActive] = useState(false);
   const [moreItemsActive, setMoreItemsActive] = useState(false);
+  const [moreFallbackActive, setMoreFallbackActive] = useState(false);
   
   useEffect(() => {
     if (!shouldAnimateHeader || hasStartedHeaderRef.current) {
@@ -163,6 +165,42 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
 
     setMoreItemsActive(true);
   }, [shouldAnimateMore, dividerControls]);
+
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    if (cardsActive) {
+      setCardsFallbackActive(false);
+      return;
+    }
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const fallbackTimer = window.setTimeout(() => setCardsFallbackActive(true), 1400);
+    return () => window.clearTimeout(fallbackTimer);
+  }, [cardsActive, isReady]);
+
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    if (moreItemsActive) {
+      setMoreFallbackActive(false);
+      return;
+    }
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const fallbackTimer = window.setTimeout(() => setMoreFallbackActive(true), 1800);
+    return () => window.clearTimeout(fallbackTimer);
+  }, [moreItemsActive, isReady]);
 
   const carouselViewportClass = 'px-4 sm:px-6 lg:px-8';
   const carouselContentClass = cn(
@@ -265,7 +303,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
                   <ContentCard
                     item={item}
                     delay={getCardStaggerDelay(index)}
-                    isActive={cardsActive}
+                    isActive={cardsActive || cardsFallbackActive}
                   />
                 </CarouselItem>
               ))}
@@ -277,7 +315,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
                 <ContentCard
                   item={item}
                   delay={getCardStaggerDelay(index)}
-                  isActive={cardsActive}
+                  isActive={cardsActive || cardsFallbackActive}
                 />
               </div>
             ))}
@@ -311,7 +349,7 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
                 key={item.id}
                 item={item}
                 delay={delay + COMPACT_BASE_DELAY_OFFSET + index * COMPACT_ITEM_STAGGER}
-                isActive={moreItemsActive}
+                isActive={moreItemsActive || moreFallbackActive}
               />
             ))}
           </div>
@@ -326,13 +364,13 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
               >
                 <div className="grid gap-2">
                   {nonFeaturedItems.slice(COMPACT_PREVIEW_COUNT).map((item, index) => (
-                    <CompactContentItem
-                      key={item.id}
-                      item={item}
-                      delay={index * COLLAPSED_ITEM_STAGGER}
-                      isActive={moreItemsActive}
-                    />
-                  ))}
+                  <CompactContentItem
+                    key={item.id}
+                    item={item}
+                    delay={index * COLLAPSED_ITEM_STAGGER}
+                    isActive={moreItemsActive || moreFallbackActive}
+                  />
+                ))}
               </div>
             </CollapsibleSection>
           )}
