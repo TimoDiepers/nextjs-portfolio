@@ -379,7 +379,7 @@ const PersonalSite = () => {
           <FeaturedSection
             id="featured-publications"
             title="Publications"
-            description="Explore my journal papers, scientific reports and conference publications."
+            description="Explore my journal papers and scientific reports."
             items={publications}
             accentClass="bg-chart-1/60"
             isReady={heroReady}
