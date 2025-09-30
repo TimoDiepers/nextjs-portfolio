@@ -167,10 +167,6 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
   }, [shouldAnimateMore, dividerControls]);
 
   useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-
     if (cardsActive) {
       setCardsFallbackActive(false);
       return;
@@ -180,15 +176,12 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       return;
     }
 
+    // Fallback timer to ensure cards fade in even if animation trigger fails
     const fallbackTimer = window.setTimeout(() => setCardsFallbackActive(true), 1400);
     return () => window.clearTimeout(fallbackTimer);
-  }, [cardsActive, isReady]);
+  }, [cardsActive]);
 
   useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-
     if (moreItemsActive) {
       setMoreFallbackActive(false);
       return;
@@ -198,9 +191,10 @@ const FeaturedSection: React.FC<FeaturedSectionProps & { isReady: boolean; delay
       return;
     }
 
+    // Fallback timer to ensure more items fade in even if animation trigger fails
     const fallbackTimer = window.setTimeout(() => setMoreFallbackActive(true), 1800);
     return () => window.clearTimeout(fallbackTimer);
-  }, [moreItemsActive, isReady]);
+  }, [moreItemsActive]);
 
   const carouselViewportClass = 'px-4 sm:px-6 lg:px-8';
   const carouselContentClass = cn(
