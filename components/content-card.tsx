@@ -60,9 +60,7 @@ const ContentCard = ({
     [transition]
   );
 
-  const containerClassName = shouldAnimate
-    ? 'h-full will-change-transform opacity-0'
-    : 'h-full will-change-transform';
+  const containerClassName = 'h-full will-change-transform';
 
   const cardBody = (
     <Card className="group relative flex h-full flex-col rounded-3xl bg-card transition-all duration-500 hover:scale-[1.02]">
