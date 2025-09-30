@@ -21,8 +21,8 @@ const ContentCard = ({
   disableAnimation = false,
   isActive,
 }: ContentCardProps) => {
-  const shouldReduceMotion = useReducedMotion();
-  const shouldAnimate = !(disableAnimation || shouldReduceMotion);
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = !disableAnimation;
   const usesParentTrigger = shouldAnimate && typeof isActive === 'boolean';
   const { isDark, ready } = useTheme();
 
@@ -45,19 +45,19 @@ const ContentCard = ({
 
   const transition = useMemo(
     () => ({
-      duration: 0.35,
+      duration: prefersReducedMotion ? 0.001 : 0.35,
       ease: 'easeOut' as const,
-      delay: shouldAnimate ? delay : 0,
+      delay: shouldAnimate ? (prefersReducedMotion ? 0 : delay) : 0,
     }),
-    [delay, shouldAnimate]
+    [delay, prefersReducedMotion, shouldAnimate]
   );
 
   const variants = useMemo(
     () => ({
-      hidden: { opacity: 0, y: 24 },
+      hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 24 },
       visible: { opacity: 1, y: 0, transition },
     }),
-    [transition]
+    [prefersReducedMotion, transition]
   );
 
   const containerClassName = shouldAnimate
