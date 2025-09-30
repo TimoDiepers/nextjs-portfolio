@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Overview - Timo Diepers",
+  title: "Timo Diepers",
   description: "Overview of Timo Diepers' publications, presentations and coding projects.",
 };
 
