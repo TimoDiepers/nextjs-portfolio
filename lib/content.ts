@@ -46,6 +46,18 @@ export const publications: ContentItem[] = [
 
 export const presentations: ContentItem[] = [
   {
+    id: "timex-workshop-brightcon-2025",
+    title: "Advanced Teaching Course · Time-explicit LCA with bw_timex",
+    meta: "BrightCon Conference · Grenoble, FR · 2025",
+    description:
+      "Workshop on time-explicit LCA and hands-on session with bw_timex, our time-explicit LCA python package based on Brightway",
+    topics: ["Teaching", "Life Cycle Assessment", "Python"],
+    links: [
+      { label: "Material", href: "https://github.com/Depart-de-Sentier/brightcon-2025-material/tree/main/courses/advanced/bw_timex" },
+    ],
+    featured: false,
+  },
+  {
     id: "ieday-2024",
     title: "IE Day Session · What year is it? Navigating time in LCA",
     meta: "Industrial Ecology Day · Online · 2024",
