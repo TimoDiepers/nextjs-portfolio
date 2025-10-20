@@ -181,5 +181,16 @@ export const codingProjects: ContentItem[] = [
       { label: 'Website', href: 'https://timodiepers.github.io/grid-expansion-impacts/' },
     ],
     featured: false,
+  },   
+  {
+    id: 'portfolio-website',
+    title: 'next.js portfolio · Source Code of this Website',
+    meta: 'Creator',
+    description: 'The source code for my personal portfolio website built with Next.js.',
+    topics: ['Website', 'Next.js', 'shadcn/ui'],
+    links: [
+      { label: 'Repository', href: 'https://github.com/TimoDiepers/nextjs-portfolio' },
+    ],
+    featured: false,
   },
 ];
