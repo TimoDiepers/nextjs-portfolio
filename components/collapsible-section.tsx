@@ -67,7 +67,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               ease: 'easeInOut',
               opacity: { duration: 0.2 }
             }}
-            style={{ overflow: 'hidden' }}
+            style={{ overflow: 'visible' }}
           >
             {children}
           </motion.div>
