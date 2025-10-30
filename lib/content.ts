@@ -25,8 +25,8 @@ export const publications: ContentItem[] = [
       'We propose a time-explicit LCA framework that captures when processes and emissions occur, enabling dynamic assessments of evolving product systems.',
     topics: ['Journal Paper', 'Life Cycle Assessment', 'Methodology', 'Time dynamics'],
     links: [
-      { label: 'Paper', href: '#' },
-      { label: 'Code', href: '#' },
+      { label: 'Paper', href: 'https://link.springer.com/article/10.1007/s11367-025-02539-3' },
+      { label: 'Code', href: 'https://github.com/brightway-lca/bw_timex/blob/main/notebooks/paper_case_study.ipynb' },
     ],
     featured: true,
   },
@@ -41,6 +41,19 @@ export const publications: ContentItem[] = [
       { label: 'Report', href: 'https://publications.rwth-aachen.de/record/1011748' },
     ],
     featured: true,
+  },  
+  {
+    id: 'timex-joss-paper',
+    title: 'bw_timex: A Python Package for Time-explicit Life Cycle Assessment (submitted)',
+    meta: 'Journal of Open Source Software · 2025',
+    description:
+      'We propose a time-explicit LCA framework that captures when processes and emissions occur, enabling dynamic assessments of evolving product systems.',
+    topics: ['Journal Paper', 'Software', 'Life Cycle Assessment'],
+    links: [
+      { label: 'Preprint', href: 'https://github.com/openjournals/joss-papers/blob/joss.07981/joss.07981/10.21105.joss.07981.pdf' },
+      { label: 'Package', href: 'https://github.com/brightway-lca/bw_timex?tab=readme-ov-file' },
+    ],
+    featured: false,
   },
 ];
 
@@ -137,7 +150,6 @@ export const codingProjects: ContentItem[] = [
     links: [
       { label: 'Repository', href: 'https://github.com/brightway-lca/bw_timex' },
       { label: 'Documentation', href: 'https://docs.brightway.dev/projects/bw-timex/en/latest/' },
-      { label: 'JOSS Paper', href: 'https://joss.theoj.org/papers/eb9021af0207b86e02439768a4841670' },
     ],
     imageLight: '/teasers/bw_timex_light_rtd.svg',
     imageDark: '/teasers/bw_timex_dark_rtd.svg',
