@@ -93,6 +93,12 @@ const BootIntro = () => {
         {FULL_TEXT.slice(0, revealed)}
         {!done ? <span className="boot-caret">_</span> : null}
       </pre>
+      {/* Without JS the animated reveal above never advances past 0 characters; show the full text instead. */}
+      <noscript>
+        <pre className="absolute inset-0 whitespace-pre-wrap font-[inherit] text-sm leading-relaxed text-foreground">
+          {FULL_TEXT}
+        </pre>
+      </noscript>
     </div>
   );
 };
