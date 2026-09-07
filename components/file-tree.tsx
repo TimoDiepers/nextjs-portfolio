@@ -36,7 +36,7 @@ const childPrefix = (parentIsLastFolder: boolean, isLastChild: boolean) =>
   (parentIsLastFolder ? '    ' : '|   ') + (isLastChild ? '`-- ' : '|-- ');
 
 const ROW_CLASSNAME =
-  'flex items-baseline gap-0 rounded-none px-1 py-0.5 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background';
+  'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background';
 
 const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessage: string }) => {
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
@@ -204,12 +204,14 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
               onFocus={() => setActiveId(folder.id)}
               onClick={() => setExpanded((current) => ({ ...current, [folder.id]: !current[folder.id] }))}
               onKeyDown={(event) => handleKeyDown(event, { kind: 'folder', id: folder.id, folderId: folder.id, focusable: true })}
-              className={`${ROW_CLASSNAME} cursor-pointer`}
+              className={`${ROW_CLASSNAME} cursor-pointer ${
+                folderIndex > 0 ? 'mt-3 border-t border-foreground pt-3' : ''
+              }`}
             >
               <span aria-hidden="true" className="shrink-0 opacity-50">
                 {folderPrefix(isLastFolder)}
               </span>
-              <span className="font-bold">{folder.label}/</span>
+              <span className="font-bold tracking-[0.1em]">{folder.label}/</span>
               <span className="tabular-nums pl-2 opacity-60">{count}</span>
               <span aria-hidden="true" className="pl-2 opacity-50">
                 {isExpanded ? '[-]' : '[+]'}
@@ -225,7 +227,7 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
                 {childrenByFolder[folder.id]?.map((node) => {
                   if (node.kind === 'empty') {
                     return (
-                      <div key={node.id} className="flex items-baseline gap-0 px-1 py-0.5 opacity-60">
+                      <div key={node.id} className="flex items-baseline gap-0 px-1 py-1 mb-1 opacity-60">
                         <span aria-hidden="true" className="shrink-0">
                           {node.prefix}
                         </span>

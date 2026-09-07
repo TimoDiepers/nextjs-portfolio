@@ -165,7 +165,7 @@ const HomeOverview = () => {
               {!searchFocused && !hasActiveQuery ? (
                 <kbd
                   aria-hidden="true"
-                  className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2"
+                  className="pointer-events-none absolute right-2 top-1/2 hidden -translate-y-1/2 sm:inline-flex"
                 >
                   f
                 </kbd>
