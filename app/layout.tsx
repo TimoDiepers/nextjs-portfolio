@@ -3,8 +3,12 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Timo Diepers',
-  description: "Overview of Timo Diepers' publications.",
+  title: {
+    default: 'Timo Diepers',
+    template: '%s · Timo Diepers',
+  },
+  description:
+    'Publications, presentations, and open-source projects by Timo Diepers, researcher in time-explicit Life Cycle Assessment and Optimization.',
 };
 
 export default function RootLayout({

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T00:00:00Z",
+  "title": "Design System: Timo Diepers — Personal Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Ink",
+        "canonical": "#111111",
+        "tonalRamp": ["#0f0f0f", "#111111", "#1c1c1c", "#333333", "#555555", "#888888", "#bbbbbb", "#f3f3f3"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#0f0f0f", "#222222", "#444444", "#777777", "#aaaaaa", "#dddddd", "#f3f3f3", "#ffffff"]
+      }
+    },
+    "typographyMeta": {
+      "body": { "displayName": "Body", "purpose": "Every paragraph, nav item, row body copy — the base role." },
+      "label": { "displayName": "Label", "purpose": "Page title, row titles, section headings — bold weight, same size as body." }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "List Row (linked)",
+      "kind": "card",
+      "refersTo": "row-link",
+      "description": "Signature bordered row used for publications/presentations/coding entries that link out.",
+      "html": "<a class=\"ds-row-link\" href=\"#\"><p class=\"ds-row-title\">Item Title</p><p class=\"ds-row-meta\">2025 · Journal Paper</p></a>",
+      "css": ".ds-row-link { display: block; border: 1px solid #111111; padding: 0.5rem 0.75rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.875rem; color: #111111; text-decoration: none; transition: background-color 0.15s, color 0.15s; } .ds-row-link:hover, .ds-row-link:focus-visible { background-color: #111111; color: #ffffff; box-shadow: 0 0 0 1px rgba(17,17,17,0.6); } .ds-row-title { font-weight: 700; margin: 0; } .ds-row-meta { margin: 0.15rem 0 0; }"
+    },
+    {
+      "name": "List Row (non-interactive)",
+      "kind": "card",
+      "refersTo": "row-static",
+      "description": "Same bordered row shape for entries without a primary link — no hover state.",
+      "html": "<div class=\"ds-row-static\"><p class=\"ds-row-title\">Item Title</p><p class=\"ds-row-meta\">2025 · Focus Report</p></div>",
+      "css": ".ds-row-static { display: block; border: 1px solid #111111; padding: 0.5rem 0.75rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.875rem; color: #111111; } .ds-row-static p { margin: 0; } .ds-row-static p:first-child { font-weight: 700; }"
+    },
+    {
+      "name": "Bracket Tag",
+      "kind": "chip",
+      "refersTo": "filter-tag",
+      "description": "Lowercase bracketed text used for topic filters and detail-page topic labels; active state is underlined, not filled.",
+      "html": "<button class=\"ds-bracket-tag\">[lca]</button>",
+      "css": ".ds-bracket-tag { background: none; border: none; padding: 0.125rem 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.875rem; color: #111111; opacity: 0.7; cursor: pointer; } .ds-bracket-tag:hover { opacity: 1; } .ds-bracket-tag.is-active { opacity: 1; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "custom",
+      "refersTo": "theme-toggle",
+      "description": "Light/dark radio-group pair styled identically to bracket tags — underline marks the active option.",
+      "html": "<div class=\"ds-theme-toggle\" role=\"radiogroup\"><button class=\"ds-theme-option is-active\">[light]</button><button class=\"ds-theme-option\">[dark]</button></div>",
+      "css": ".ds-theme-toggle { display: inline-flex; align-items: center; gap: 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.875rem; } .ds-theme-option { background: none; border: none; padding: 0.125rem 0.25rem; color: #111111; opacity: 0.5; cursor: pointer; } .ds-theme-option.is-active { opacity: 0.8; text-decoration: underline; text-underline-offset: 4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Terminal Index",
+    "overview": "The live surface reads like a directory listing rendered in a shell: monospace type throughout, hard-edged bordered rows standing in for cards, lowercase bracket tags ([topic]) standing in for pills, and an underline standing in for an active/selected state. There is exactly one ink color and one paper color, swapped wholesale between light and dark — no accent hue, no gradient, no photography, no illustration. Depth is expressed only through the border and through inverting ink/paper on hover, never through shadow or blur. This restraint is deliberate and load-bearing: the site indexes a researcher's publications, talks, and open-source tools, and its job is to get a visitor from the list to the actual paper/repo/slide in one click.",
+    "keyCharacteristics": [
+      "Pure two-tone ink/paper palette, no accent color",
+      "Monospace type at a single size (text-sm) carrying every role",
+      "Square corners everywhere; zero border-radius on the live surface",
+      "Zero shadows; depth = 1px border + full ink/paper inversion on hover",
+      "Bracket notation ([label]) as the recurring tag/filter affordance",
+      "Underline-with-offset as the only selected/active signal"
+    ],
+    "rules": [
+      { "name": "The Two-Tone Rule", "body": "The system never introduces a third color. No accent, no semantic red/green, no brand hue.", "section": "colors" },
+      { "name": "The One Size Rule", "body": "There is no larger/smaller type step anywhere on the live pages. Weight and structure carry hierarchy, not scale.", "section": "typography" },
+      { "name": "The Invert-Not-Lift Rule", "body": "Interactive rows respond to hover/focus by inverting ink and paper, never by adding shadow, scale, or blur.", "section": "elevation" },
+      { "name": "The Square Rule", "body": "Radius is 0 everywhere on the live surface. Do not introduce rounded corners into the shipped system.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do keep every interactive surface a 1px square-cornered border with full ink/paper inversion on hover.",
+      "Do use lowercase bracket notation ([topic]) for tags/filters instead of colored pills.",
+      "Do keep type to the single monospace stack at text-sm; use weight and letter-spacing, not size, to differentiate roles.",
+      "Do keep layout single-column and capped at max-w-3xl on every page."
+    ],
+    "donts": [
+      "Don't introduce border-radius, box-shadow, or an accent color into any live page — that is the orphaned card/hero language and is explicitly rejected.",
+      "Don't add a display/headline type size. The flat one-size hierarchy is intentional.",
+      "Don't add photography, illustration, or gradient backgrounds to the overview or detail pages.",
+      "Don't extend or wire up theme-provider.tsx's context without reconciling it with the theme-toggle.tsx implementation that actually ships."
+    ]
+  }
+}
