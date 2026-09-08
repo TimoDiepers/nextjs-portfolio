@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
@@ -37,6 +37,8 @@ const ContentDetailPage = ({
       ? orderedCollection[currentIndex + 1]
       : undefined;
 
+  const mainRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey || event.ctrlKey || event.altKey) {
@@ -56,12 +58,59 @@ const ContentDetailPage = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [router, basePath, previousItem, nextItem]);
 
+  useEffect(() => {
+    const node = mainRef.current;
+    if (!node) return;
+
+    const SWIPE_DISTANCE_PX = 64;
+    const SWIPE_MAX_DURATION_MS = 600;
+    let startX = 0;
+    let startY = 0;
+    let startTime = 0;
+
+    const handleTouchStart = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      startTime = Date.now();
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+      const elapsed = Date.now() - startTime;
+
+      const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY) * 1.5;
+      const isDecisive = Math.abs(deltaX) > SWIPE_DISTANCE_PX && elapsed < SWIPE_MAX_DURATION_MS;
+
+      if (!isHorizontal || !isDecisive) return;
+
+      if (deltaX < 0 && nextItem) {
+        router.push(`${basePath}/${nextItem.id}`);
+      } else if (deltaX > 0 && previousItem) {
+        router.push(`${basePath}/${previousItem.id}`);
+      }
+    };
+
+    node.addEventListener('touchstart', handleTouchStart, { passive: true });
+    node.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      node.removeEventListener('touchstart', handleTouchStart);
+      node.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [router, basePath, previousItem, nextItem]);
+
   return (
     <>
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
-      <main className="entrance mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-6 py-10 text-sm">
+      <main
+        ref={mainRef}
+        className="entrance mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-6 py-10 text-sm"
+      >
         <div className="flex items-center justify-between gap-3">
           <nav aria-label="Breadcrumb" className="text-sm">
             <Link href="/" className="!underline opacity-90 transition-opacity duration-150 hover:opacity-100">
@@ -166,6 +215,7 @@ const ContentDetailPage = ({
               </div>
             </div>
             <p className="hidden text-sm opacity-60 sm:block">use ← / → to browse</p>
+            <p className="text-sm opacity-60 sm:hidden">swipe to browse</p>
           </nav>
         ) : null}
       </main>
