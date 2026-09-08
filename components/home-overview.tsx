@@ -137,7 +137,7 @@ const HomeOverview = () => {
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
-      <main className="entrance mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-10 px-6 py-10 text-sm">
+      <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-10 px-6 py-10 text-sm">
         <header className="space-y-2">
           <div className="flex items-center justify-between gap-3">
             <h1 className="text-sm font-bold">Timo Diepers</h1>

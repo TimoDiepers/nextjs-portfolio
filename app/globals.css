@@ -100,12 +100,6 @@
     opacity: 0.5;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .entrance {
-      animation: entrance-fade 350ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-  }
-
   .tree-branch {
     display: grid;
     transition: grid-template-rows 200ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -126,20 +120,5 @@
     }
   }
 
-}
-
-/* Direction-neutral on purpose: this plays on every page mount, including the
-   result of a left/right swipe on mobile. A vertical rise or horizontal slide
-   would visually fight a swipe gesture going the other way; a scale+fade has
-   no directional bias to clash with. */
-@keyframes entrance-fade {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 

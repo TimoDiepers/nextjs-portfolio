@@ -7,7 +7,7 @@ export default function NotFound() {
   const pathname = usePathname();
 
   return (
-    <main className="entrance mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center gap-4 px-6 py-10 text-sm">
+    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col justify-center gap-4 px-6 py-10 text-sm">
       <div className="space-y-1">
         <h1 className="sr-only">Page not found</h1>
         <p>

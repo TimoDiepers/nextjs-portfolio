@@ -109,7 +109,7 @@ const ContentDetailPage = ({
       </a>
       <main
         ref={mainRef}
-        className="entrance mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-6 py-10 text-sm"
+        className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-6 py-10 text-sm"
       >
         <div className="flex items-center justify-between gap-3">
           <nav aria-label="Breadcrumb" className="text-sm">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const LINES = [
   '> whoami',
@@ -14,6 +14,7 @@ const LINES = [
 // not exact figures — hence "(estimated)" in the output.
 const ENERGY_PER_GB_KWH = 0.81;
 const GRID_INTENSITY_G_PER_KWH = 442;
+const COUNT_DURATION_MS = 900;
 
 const measurePageFootprint = () => {
   const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
@@ -25,26 +26,55 @@ const measurePageFootprint = () => {
   const gigabytes = totalBytes / 1_000_000_000;
   const grams = gigabytes * ENERGY_PER_GB_KWH * GRID_INTENSITY_G_PER_KWH;
 
-  return {
-    kilobytes: Math.round(totalBytes / 1000),
-    co2: grams < 0.01 ? '<0.01' : grams.toFixed(2),
-  };
+  return { kilobytes: totalBytes / 1000, grams };
 };
 
-// Same word shapes and spacing as the real result, so filling in the numbers
-// in place never changes where the line wraps — no layout shift on reveal.
-const PLACEHOLDER = { kilobytes: 0, co2: '0.00' };
+// Same word shapes and spacing at every step, so counting the numbers up
+// never changes where the line wraps — no layout shift during the reveal.
+const formatFootprint = (kilobytes: number, grams: number, isFinal: boolean) => {
+  const co2 = isFinal && grams < 0.01 ? '<0.01' : grams.toFixed(2);
+  return `~${Math.round(kilobytes)} KB transferred, ~${co2} g CO2e this visit (estimated)`;
+};
 
 const BootIntro = () => {
-  const [footprint, setFootprint] = useState(PLACEHOLDER);
+  const [display, setDisplay] = useState(() => formatFootprint(0, 0, false));
+  const frameRef = useRef(0);
 
   useEffect(() => {
-    // Small delay lets the page's own resources finish loading before summing them.
-    const timeoutId = window.setTimeout(() => {
-      setFootprint(measurePageFootprint());
-    }, 800);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    return () => window.clearTimeout(timeoutId);
+    const reveal = () => {
+      const target = measurePageFootprint();
+
+      if (prefersReducedMotion) {
+        setDisplay(formatFootprint(target.kilobytes, target.grams, true));
+        return;
+      }
+
+      const start = performance.now();
+
+      const step = (now: number) => {
+        const progress = Math.min((now - start) / COUNT_DURATION_MS, 1);
+        const eased = 1 - (1 - progress) ** 3;
+        const isFinal = progress >= 1;
+
+        setDisplay(formatFootprint(target.kilobytes * eased, target.grams * eased, isFinal));
+
+        if (!isFinal) {
+          frameRef.current = requestAnimationFrame(step);
+        }
+      };
+
+      frameRef.current = requestAnimationFrame(step);
+    };
+
+    // Small delay lets the page's own resources finish loading before summing them.
+    const timeoutId = window.setTimeout(reveal, 800);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      cancelAnimationFrame(frameRef.current);
+    };
   }, []);
 
   return (
@@ -52,7 +82,7 @@ const BootIntro = () => {
       {LINES.join('\n')}
       <span className="lca-self">
         {'\n\n> lca --self\n'}
-        {`~${footprint.kilobytes} KB transferred, ~${footprint.co2} g CO2e this visit (estimated)`}
+        {display}
       </span>
       {/* Without JS this would freeze at the "0 KB" placeholder forever, which reads as a false
           claim rather than an estimate. Hide the block entirely instead. */}
