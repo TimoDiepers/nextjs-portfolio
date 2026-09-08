@@ -39,6 +39,10 @@ const childPrefix = (parentIsLastFolder: boolean, isLastChild: boolean) =>
 const ROW_CLASSNAME =
   'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background';
 
+// Remembers which tree entry was opened, so returning to the overview (e.g. via Esc on a
+// detail page) can restore keyboard focus to that same row instead of resetting to the top.
+const RETURN_FOCUS_KEY = 'tree-return-focus-id';
+
 const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessage: string }) => {
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
@@ -120,6 +124,38 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
     nodeRefs.current[id]?.focus();
   };
 
+  // One-time, on mount: restore focus to whichever entry was opened last, if we came back here.
+  useEffect(() => {
+    const storedId = sessionStorage.getItem(RETURN_FOCUS_KEY);
+    if (!storedId) return;
+
+    sessionStorage.removeItem(RETURN_FOCUS_KEY);
+    if (focusableNodes.some((node) => node.id === storedId)) {
+      focusNode(storedId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // If nothing on the page has focus yet, ArrowDown jumps straight into the tree
+  // instead of doing nothing.
+  useEffect(() => {
+    const handleGlobalArrowDown = (event: KeyboardEvent) => {
+      if (event.key !== 'ArrowDown') return;
+
+      const active = document.activeElement;
+      const nothingFocused = !active || active === document.body;
+      if (!nothingFocused) return;
+
+      if (focusableNodes[0]) {
+        event.preventDefault();
+        focusNode(focusableNodes[0].id);
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalArrowDown);
+    return () => window.removeEventListener('keydown', handleGlobalArrowDown);
+  }, [focusableNodes]);
+
   const handleKeyDown = (event: React.KeyboardEvent, node: FocusableNode) => {
     const index = focusableNodes.findIndex((candidate) => candidate.id === node.id);
 
@@ -146,6 +182,7 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
             if (next && next.folderId === node.folderId) focusNode(next.id);
           }
         } else {
+          sessionStorage.setItem(RETURN_FOCUS_KEY, node.id);
           router.push(`${node.basePath}/${node.item.id}`);
         }
         break;
@@ -258,6 +295,7 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
                       tabIndex={isExpanded && activeId === node.id ? 0 : -1}
                       onFocus={() => setActiveId(node.id)}
                       onKeyDown={(event) => handleKeyDown(event, node)}
+                      onClick={() => sessionStorage.setItem(RETURN_FOCUS_KEY, node.id)}
                       className={ROW_CLASSNAME}
                     >
                       <span aria-hidden="true" className="shrink-0 opacity-50">
