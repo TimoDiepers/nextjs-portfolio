@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 
+import { RETURN_FOCUS_KEY } from '@/components/file-tree';
 import ThemeToggle from '@/components/theme-toggle';
 import type { ContentItem } from '@/lib/content';
 import { getItemType, getItemYear, orderByDateDesc } from '@/lib/content-helpers';
@@ -38,6 +39,13 @@ const ContentDetailPage = ({
       : undefined;
 
   const mainRef = useRef<HTMLElement>(null);
+
+  // Keep this in sync with whichever entry is actually on screen, so Esc always returns
+  // focus to the current one — not the one originally opened from the tree — even after
+  // browsing further with ←/→ or the prev/next links.
+  useEffect(() => {
+    sessionStorage.setItem(RETURN_FOCUS_KEY, item.id);
+  }, [item.id]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

@@ -39,9 +39,11 @@ const childPrefix = (parentIsLastFolder: boolean, isLastChild: boolean) =>
 const BASE_ROW_CLASSNAME =
   'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out focus-visible:bg-foreground focus-visible:text-background';
 
-// Remembers which tree entry was opened, so returning to the overview (e.g. via Esc on a
+// Remembers which tree entry is currently open, so returning to the overview (e.g. via Esc on a
 // detail page) can restore keyboard focus to that same row instead of resetting to the top.
-const RETURN_FOCUS_KEY = 'tree-return-focus-id';
+// Also updated by ContentDetailPage as the user browses with ←/→, so it always reflects
+// whichever entry is actually on screen, not just the one originally opened from the tree.
+export const RETURN_FOCUS_KEY = 'tree-return-focus-id';
 
 const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessage: string }) => {
   const router = useRouter();
