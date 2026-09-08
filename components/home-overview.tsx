@@ -9,7 +9,7 @@ import ThemeToggle from '@/components/theme-toggle';
 import { codingProjects, presentations, publications, type ContentItem } from '@/lib/content';
 
 const socialLinks = [
-  { href: 'mailto:timo.diepers@rwth-aachen.de', label: 'Mail' },
+  { href: 'mailto:timo.diepers@rwth-aachen.de', label: 'Email' },
   { href: 'https://www.linkedin.com/in/timo-diepers/', label: 'LinkedIn' },
   { href: 'https://github.com/TimoDiepers', label: 'GitHub' },
   { href: 'https://orcid.org/0009-0002-8566-8618', label: 'ORCID' },
