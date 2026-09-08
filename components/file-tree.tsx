@@ -36,8 +36,8 @@ const folderPrefix = (isLastFolder: boolean) => (isLastFolder ? '`-- ' : '|-- ')
 const childPrefix = (parentIsLastFolder: boolean, isLastChild: boolean) =>
   (parentIsLastFolder ? '    ' : '|   ') + (isLastChild ? '`-- ' : '|-- ');
 
-const ROW_CLASSNAME =
-  'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background';
+const BASE_ROW_CLASSNAME =
+  'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out focus-visible:bg-foreground focus-visible:text-background';
 
 // Remembers which tree entry was opened, so returning to the overview (e.g. via Esc on a
 // detail page) can restore keyboard focus to that same row instead of resetting to the top.
@@ -50,6 +50,23 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
   );
   const [activeId, setActiveId] = useState<string>(folders[0]?.id ?? '');
   const nodeRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  // While navigating by keyboard, a row the mouse happens to be resting on stays
+  // CSS-:hover'd even though it's no longer the focused one — drop the hover utility
+  // classes entirely until the mouse actually moves again.
+  const [suppressHover, setSuppressHover] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      setSuppressHover((current) => (current ? false : current));
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const rowClassName = (extra = '') =>
+    `${BASE_ROW_CLASSNAME} ${suppressHover ? '' : 'hover:bg-foreground hover:text-background'} ${extra}`;
 
   const orderedByFolder = useMemo(
     () => Object.fromEntries(folders.map((folder) => [folder.id, orderByDateDesc(folder.items)])),
@@ -148,6 +165,7 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
 
       if (focusableNodes[0]) {
         event.preventDefault();
+        setSuppressHover(true);
         focusNode(focusableNodes[0].id);
       }
     };
@@ -157,6 +175,7 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
   }, [focusableNodes]);
 
   const handleKeyDown = (event: React.KeyboardEvent, node: FocusableNode) => {
+    setSuppressHover(true);
     const index = focusableNodes.findIndex((candidate) => candidate.id === node.id);
 
     switch (event.key) {
@@ -245,9 +264,9 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
               onFocus={() => setActiveId(folder.id)}
               onClick={() => setExpanded((current) => ({ ...current, [folder.id]: !current[folder.id] }))}
               onKeyDown={(event) => handleKeyDown(event, { kind: 'folder', id: folder.id, folderId: folder.id, focusable: true })}
-              className={`${ROW_CLASSNAME} cursor-pointer ${
-                folderIndex > 0 ? 'mt-3 border-t border-foreground pt-3' : ''
-              }`}
+              className={rowClassName(
+                `cursor-pointer ${folderIndex > 0 ? 'mt-3 border-t border-foreground pt-3' : ''}`,
+              )}
             >
               <span aria-hidden="true" className="shrink-0 opacity-50">
                 {folderPrefix(isLastFolder)}
@@ -296,7 +315,7 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
                       onFocus={() => setActiveId(node.id)}
                       onKeyDown={(event) => handleKeyDown(event, node)}
                       onClick={() => sessionStorage.setItem(RETURN_FOCUS_KEY, node.id)}
-                      className={ROW_CLASSNAME}
+                      className={rowClassName()}
                     >
                       <span aria-hidden="true" className="shrink-0 opacity-50">
                         {node.prefix}
