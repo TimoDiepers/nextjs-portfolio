@@ -46,6 +46,8 @@ const HomeOverview = () => {
   const [query, setQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const [activeFilterIndex, setActiveFilterIndex] = useState(0);
+  const filterRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -122,6 +124,38 @@ const HomeOverview = () => {
     );
   };
 
+  const filterCount = allTopics.length + 1;
+
+  const focusFilter = (index: number) => {
+    setActiveFilterIndex(index);
+    filterRefs.current[index]?.focus();
+  };
+
+  const handleFilterKeyDown = (event: React.KeyboardEvent, index: number) => {
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        event.preventDefault();
+        focusFilter(Math.min(index + 1, filterCount - 1));
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        event.preventDefault();
+        focusFilter(Math.max(index - 1, 0));
+        break;
+      case 'Home':
+        event.preventDefault();
+        focusFilter(0);
+        break;
+      case 'End':
+        event.preventDefault();
+        focusFilter(filterCount - 1);
+        break;
+      default:
+        break;
+    }
+  };
+
   const trimmedQuery = query.trim();
   const hasActiveQuery = trimmedQuery.length > 0;
   const isEasterEgg = trimmedQuery.toLowerCase() === 'whoami';
@@ -180,12 +214,18 @@ const HomeOverview = () => {
             <span className="text-sm">Filter:</span>
             <button
               type="button"
+              ref={(el) => {
+                filterRefs.current[0] = el;
+              }}
+              tabIndex={activeFilterIndex === 0 ? 0 : -1}
+              onFocus={() => setActiveFilterIndex(0)}
+              onKeyDown={(event) => handleFilterKeyDown(event, 0)}
               onClick={() => {
                 setActiveTopics([]);
                 setQuery('');
               }}
               aria-pressed={activeTopics.length === 0 && !hasActiveQuery}
-              className={`cursor-pointer px-1 py-0.5 transition-opacity duration-150 ${
+              className={`cursor-pointer px-1 py-0.5 transition-opacity duration-150 outline-none focus-visible:opacity-100 ${
                 activeTopics.length === 0 && !hasActiveQuery
                   ? 'font-medium underline underline-offset-4 decoration-1'
                   : 'opacity-70 hover:opacity-100'
@@ -193,16 +233,23 @@ const HomeOverview = () => {
             >
               all
             </button>
-            {allTopics.map((filterTopic) => {
+            {allTopics.map((filterTopic, topicIndex) => {
               const isActive = activeTopics.includes(filterTopic);
+              const index = topicIndex + 1;
 
               return (
                 <button
                   type="button"
                   key={filterTopic}
+                  ref={(el) => {
+                    filterRefs.current[index] = el;
+                  }}
+                  tabIndex={activeFilterIndex === index ? 0 : -1}
+                  onFocus={() => setActiveFilterIndex(index)}
+                  onKeyDown={(event) => handleFilterKeyDown(event, index)}
                   onClick={() => toggleTopic(filterTopic)}
                   aria-pressed={isActive}
-                  className={`cursor-pointer px-1 py-0.5 transition-opacity duration-150 ${
+                  className={`cursor-pointer px-1 py-0.5 transition-opacity duration-150 outline-none focus-visible:opacity-100 ${
                     isActive
                       ? 'font-medium underline underline-offset-4 decoration-1'
                       : 'opacity-70 hover:opacity-100'
@@ -213,6 +260,10 @@ const HomeOverview = () => {
               );
             })}
           </nav>
+
+          <p className="hidden pt-1 text-sm opacity-60 sm:block">
+            tab into index below · ↑↓ navigate · ↵ open · → open entry · ← collapse/up
+          </p>
         </header>
 
         <div id="main-content">
@@ -267,7 +318,7 @@ const HomeOverview = () => {
                 href={link.href}
                 target={link.href.startsWith('mailto:') ? undefined : '_blank'}
                 rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                className="border border-foreground px-2 py-1 transition-colors duration-150 ease-out hover:bg-foreground hover:text-background"
+                className="border border-foreground px-2 py-1 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background"
               >
                 {link.label}
               </a>

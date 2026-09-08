@@ -52,6 +52,10 @@ const ContentDetailPage = ({
       if (event.key === 'ArrowRight' && nextItem) {
         router.push(`${basePath}/${nextItem.id}`);
       }
+
+      if (event.key === 'Escape') {
+        router.push('/');
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -214,7 +218,7 @@ const ContentDetailPage = ({
                 )}
               </div>
             </div>
-            <p className="hidden text-sm opacity-60 sm:block">use ← / → to browse</p>
+            <p className="hidden text-sm opacity-60 sm:block">use ← / → to browse · esc for overview</p>
             <p className="text-sm opacity-60 sm:hidden">swipe to browse</p>
           </nav>
         ) : null}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import type { ContentItem } from '@/lib/content';
 import { getItemType, getItemYear, orderByDateDesc } from '@/lib/content-helpers';
@@ -36,9 +37,10 @@ const childPrefix = (parentIsLastFolder: boolean, isLastChild: boolean) =>
   (parentIsLastFolder ? '    ' : '|   ') + (isLastChild ? '`-- ' : '|-- ');
 
 const ROW_CLASSNAME =
-  'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background';
+  'flex items-baseline gap-0 rounded-none px-1 py-1 mb-1 outline-none transition-colors duration-150 ease-out hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background';
 
 const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessage: string }) => {
+  const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(folders.map((folder) => [folder.id, true])),
   );
@@ -135,14 +137,16 @@ const FileTree = ({ folders, emptyMessage }: { folders: TreeFolder[]; emptyMessa
         break;
       }
       case 'ArrowRight': {
+        event.preventDefault();
         if (node.kind === 'folder') {
-          event.preventDefault();
           if (!expanded[node.folderId]) {
             setExpanded((current) => ({ ...current, [node.folderId]: true }));
           } else {
             const next = focusableNodes[index + 1];
             if (next && next.folderId === node.folderId) focusNode(next.id);
           }
+        } else {
+          router.push(`${node.basePath}/${node.item.id}`);
         }
         break;
       }
